@@ -23,6 +23,7 @@ RUN dpkg --add-architecture i386 \
 COPY goip/ /usr/local/goip/
 RUN chmod -R 777 /usr/local/goip \
     && ln -s /usr/local/goip /var/www/goip \
+    && rm -f /var/www/html/index.html \
     && printf '%s\n' \
         'Alias /goip "/var/www/goip"' \
         '<Directory "/var/www/goip">' \
@@ -30,6 +31,7 @@ RUN chmod -R 777 /usr/local/goip \
         '    AllowOverride None' \
         '    Require all granted' \
         '</Directory>' \
+        'RedirectMatch ^/$ /goip/en/' \
         > /etc/apache2/conf-available/goip.conf \
     && a2enconf goip \
     && a2enmod php5 \
