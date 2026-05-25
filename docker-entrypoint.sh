@@ -42,6 +42,8 @@ killall goipcron >/dev/null 2>&1 || true
 cd /usr/local/goip
 ./goipcron inc/config.inc.php
 
+set +u
 . /etc/apache2/envvars
+set -u
 rm -f /var/run/apache2/apache2.pid
 exec /usr/sbin/apache2 -DFOREGROUND

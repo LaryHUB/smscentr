@@ -45,6 +45,8 @@ done
 
 # Load Apache env (APACHE_RUN_USER etc.), drop any stale pidfile, then exec
 # apache directly as PID 1 so signals + container lifecycle work cleanly.
+set +u                                  # envvars references parameters before defining them
 . /etc/apache2/envvars
+set -u
 rm -f /var/run/apache2/apache2.pid
 exec /usr/sbin/apache2 -DFOREGROUND
