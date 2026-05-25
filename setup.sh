@@ -12,6 +12,7 @@ MYSQL_PORT="${GOIP_MYSQL_PORT:-3306}"
 BIND_ADDR="${GOIP_BIND_ADDR:-0.0.0.0}"
 MYSQL_BIND_ADDR="${GOIP_MYSQL_BIND_ADDR:-127.0.0.1}"
 VOLUME_NAME="${GOIP_VOLUME:-goip-mysql}"
+SESSIONS_VOLUME="${GOIP_SESSIONS_VOLUME:-goip-sessions}"
 
 log() { printf '\033[1;34m[setup]\033[0m %s\n' "$*"; }
 err() { printf '\033[1;31m[error]\033[0m %s\n' "$*" >&2; exit 1; }
@@ -44,6 +45,7 @@ if docker ps -a --format '{{.Names}}' | grep -qx "$CONTAINER_NAME"; then
     docker rm -f "$CONTAINER_NAME" >/dev/null
 fi
 docker volume inspect "$VOLUME_NAME" >/dev/null 2>&1 || docker volume create "$VOLUME_NAME" >/dev/null
+docker volume inspect "$SESSIONS_VOLUME" >/dev/null 2>&1 || docker volume create "$SESSIONS_VOLUME" >/dev/null
 
 log "starting container $CONTAINER_NAME"
 docker run -d \
@@ -53,6 +55,7 @@ docker run -d \
     -p "$BIND_ADDR:$UDP_PORT:44444/udp" \
     -p "$MYSQL_BIND_ADDR:$MYSQL_PORT:3306/tcp" \
     -v "$VOLUME_NAME:/var/lib/mysql" \
+    -v "$SESSIONS_VOLUME:/var/lib/php5/sessions" \
     "$IMAGE_NAME" >/dev/null
 
 HOST_IP=$(hostname -I 2>/dev/null | awk '{print $1}')

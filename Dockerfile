@@ -36,7 +36,13 @@ RUN chmod -R 777 /usr/local/goip \
     && a2enconf goip \
     && a2enmod php5 \
     && printf '%s\n' 'ServerName localhost' > /etc/apache2/conf-available/servername.conf \
-    && a2enconf servername
+    && a2enconf servername \
+    && printf '%s\n' \
+        'auto_prepend_file = /usr/local/goip/inc/bootstrap.php' \
+        'session.save_path = "/var/lib/php5/sessions"' \
+        'session.cookie_lifetime = 0' \
+        'session.gc_maxlifetime = 86400' \
+        > /etc/php5/apache2/conf.d/99-goip.ini
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

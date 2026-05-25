@@ -8,8 +8,10 @@ cleanup() {
 }
 trap cleanup INT TERM
 
-mkdir -p /run/mysqld /var/lib/mysql
+mkdir -p /run/mysqld /var/lib/mysql /var/lib/php5/sessions
 chown -R mysql:mysql /run/mysqld /var/lib/mysql
+chown -R www-data:www-data /var/lib/php5/sessions
+chmod 1733 /var/lib/php5/sessions
 ln -sf /run/mysqld/mysqld.sock /var/lib/mysql/mysql.sock
 
 # Allow external connections to MySQL (default vendor my.cnf binds to 127.0.0.1)
