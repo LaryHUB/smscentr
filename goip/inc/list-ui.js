@@ -483,6 +483,33 @@
         }
     }
 
+    // GSM signal coloring: 0..31 → red→green gradient; LOGOUT → 99 in red.
+    // 99 is the GSM CSQ convention for "no service / unknown".
+    var SIGNAL_MAX = 31;
+    function colorizeSignals() {
+        var rows = document.querySelectorAll('tr');
+        for (var i = 0; i < rows.length; i++) {
+            var st = rows[i].querySelector('.gsm-status');
+            var sig = rows[i].querySelector('.gsm-signal');
+            if (!st || !sig) continue;
+            var status = (st.textContent || '').trim().toUpperCase();
+            if (status !== 'LOGIN') {
+                sig.textContent = '99';
+                sig.style.color = '#c53030';
+                sig.style.background = '#fef2f2';
+                continue;
+            }
+            var v = parseInt((sig.textContent || '').replace(/[^0-9]/g, ''), 10);
+            if (isNaN(v)) v = 0;
+            if (v > SIGNAL_MAX) v = SIGNAL_MAX;
+            if (v < 0) v = 0;
+            var hue = Math.round((v / SIGNAL_MAX) * 120);   // 0=red → 120=green
+            sig.textContent = String(v);
+            sig.style.color = 'hsl(' + hue + ', 72%, 32%)';
+            sig.style.background = 'hsl(' + hue + ', 80%, 94%)';
+        }
+    }
+
     // Click anywhere in a data row to toggle its checkbox.
     function bindRowClickToCheckbox() {
         document.addEventListener('click', function(e){
@@ -510,5 +537,8 @@
         styleChecks();
         setupBatchFab();
         bindRowClickToCheckbox();
+        colorizeSignals();
+        // Re-run after every auto-refresh swap (cheap, runs on small tables only)
+        setInterval(colorizeSignals, 1000);
     });
 })();
