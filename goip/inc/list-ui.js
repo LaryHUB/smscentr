@@ -483,6 +483,24 @@
         }
     }
 
+    // Click anywhere in a data row to toggle its checkbox.
+    function bindRowClickToCheckbox() {
+        document.addEventListener('click', function(e){
+            // Don't hijack clicks on real form controls / links
+            var t = e.target;
+            var tag = (t.tagName || '').toUpperCase();
+            if (tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || tag === 'LABEL') return;
+            if (t.closest && (t.closest('a') || t.closest('button') || t.closest('label'))) return;
+            var tr = t.closest ? t.closest('tr') : null;
+            if (!tr) return;
+            var cb = tr.querySelector('input[type=checkbox][name^="Id"]');
+            if (!cb) return;
+            cb.checked = !cb.checked;
+            tr.classList.toggle('marked', cb.checked);
+            try { cb.dispatchEvent(new Event('change', { bubbles: true })); } catch (err) {}
+        }, false);
+    }
+
     ready(function(){
         dedupStatusBars();
         promoteNavLinks();
@@ -491,5 +509,6 @@
         stylePagination();
         styleChecks();
         setupBatchFab();
+        bindRowClickToCheckbox();
     });
 })();
