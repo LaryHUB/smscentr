@@ -1,0 +1,7 @@
+*.bak
+*.tar.gz
+.DS_Store
+Thumbs.db
+goip/goipsms.log
+goip/dopost.log
+goip/upload/
