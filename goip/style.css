@@ -272,18 +272,25 @@ tr.topbg td a:hover {
 
 /* Column headers (.title row inside data tables) — compact, sticky */
 tr.title td {
-	padding: 7px 8px;
+	padding: 7px 6px;
 	font-weight: 600;
-	font-size: 12px;
+	font-size: 11px;
 	line-height: 1.2;
 	text-align: center;
-	white-space: nowrap;
+	white-space: normal;
+	word-break: keep-all;
 }
 tr.title {
 	position: sticky;
 	top: 0;
 	z-index: 5;
 }
+/* Data tables shouldn't overflow horizontally */
+table.border { table-layout: auto; max-width: 100%; }
+table.border + br { display: none; }
+/* When the data table is wider than viewport, allow horizontal scroll on a wrapper */
+body { overflow-x: hidden; }
+.tables, .table-scroll { overflow-x: auto; overflow-y: auto; max-width: 100%; }
 
 /* Search/filter row — make horizontal flex if vendor put each field in own cell */
 tr.tdbg td label, tr.tdbg td b { vertical-align: middle; }

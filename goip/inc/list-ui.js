@@ -39,36 +39,64 @@
         }
     }
 
-    // --- 2. Empty state ---
+    // --- 2. Empty state: when there are no real data rows, hide column headers
+    //        + checkbox toolbar and replace with a single centered placeholder ---
+    function isControlRow(tr) {
+        // Rows that contain only navigation links, checkbox toolbars, or form fields are not data
+        var hasCheckboxAll = tr.querySelector('input[type="checkbox"]#chkAll, input[type="checkbox"]#chkAll0');
+        if (hasCheckboxAll) return true;
+        var t = (tr.textContent || '').replace(/\s+/g, ' ').trim();
+        if (/(Choose current page|Choose all|Now (choosed|selected) \d+ Channels)/i.test(t)) return true;
+        // Navigation row in goip.php
+        if (/Navigation\s*:|Refresh\s*\|\s*GoIP List|GSM LOGOUT Long Time/.test(t)) return true;
+        return false;
+    }
+
+    function isDataRow(tr) {
+        var cls = tr.className || '';
+        if (cls.indexOf('title') !== -1) return false;     // header
+        if (cls.indexOf('topbg') !== -1) return false;     // status bar
+        if (isControlRow(tr)) return false;
+        // Must be a tdbg/even row with at least one visible cell of content
+        if (cls.indexOf('tdbg') === -1 && cls.indexOf('even') === -1) return false;
+        return (tr.textContent || '').trim().length > 0;
+    }
+
     function addEmptyState() {
-        // Find the largest .border table (the data list)
         var tables = document.querySelectorAll('table.border');
         var best = null, bestRows = 0;
         for (var i = 0; i < tables.length; i++) {
-            var rows = tables[i].rows.length;
+            var rows = tables[i].rows ? tables[i].rows.length : 0;
             if (rows > bestRows) { bestRows = rows; best = tables[i]; }
         }
         if (!best) return;
 
-        // Detect "data rows" — rows with class tdbg or even, but NOT title/topbg
-        var dataRows = 0, lastHeaderRow = null, hasHeader = false;
+        var dataRows = 0, headerRows = [], lastHeaderRow = null;
         for (var k = 0; k < best.rows.length; k++) {
-            var cls = best.rows[k].className || '';
-            if (cls.indexOf('title') !== -1) { hasHeader = true; lastHeaderRow = best.rows[k]; }
-            else if ((cls.indexOf('tdbg') !== -1 || cls.indexOf('even') !== -1) && !best.rows[k].querySelector('input,select,button,textarea')) {
-                dataRows++;
+            var r = best.rows[k];
+            var cls = r.className || '';
+            if (cls.indexOf('title') !== -1) { headerRows.push(r); lastHeaderRow = r; continue; }
+            if (isDataRow(r)) dataRows++;
+        }
+        if (dataRows > 0 || !lastHeaderRow) return;
+
+        // Hide header(s) — useless without data
+        for (var h = 0; h < headerRows.length; h++) headerRows[h].style.display = 'none';
+        // Hide checkbox toolbar rows just below
+        for (var m = 0; m < best.rows.length; m++) {
+            if (isControlRow(best.rows[m]) && best.rows[m].querySelector('input[type="checkbox"]')) {
+                best.rows[m].style.display = 'none';
             }
         }
-        if (dataRows > 0) return;
-        if (!hasHeader) return;
-        // Insert empty placeholder row after the header
-        var span = lastHeaderRow ? lastHeaderRow.cells.length : 8;
+        // Add big empty state row
+        var span = lastHeaderRow.cells.length;
         var tr = document.createElement('tr');
-        tr.className = 'tdbg empty-row';
+        tr.className = 'empty-row';
         tr.innerHTML = '<td colspan="' + span + '" class="empty-state">' +
             '<div class="empty-icon">&#9744;</div>' +
-            '<div class="empty-text">No data yet</div>' +
-            '<div class="empty-hint">Rows will appear here automatically when devices come online.</div></td>';
+            '<div class="empty-text">No GoIP devices yet</div>' +
+            '<div class="empty-hint">Devices will appear here once they register. Use <b>Add GoIP</b> above to provision one manually.</div>' +
+            '</td>';
         var insertAfter = lastHeaderRow.nextSibling;
         if (insertAfter) lastHeaderRow.parentNode.insertBefore(tr, insertAfter);
         else lastHeaderRow.parentNode.appendChild(tr);
