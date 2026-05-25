@@ -182,6 +182,7 @@ $cron->close();
 
 if($debug){
 ?>
+<script src="inc/ussd_ux.js" defer></script>
 <table wIdth="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="border">
   <tr class="topbg">
     <td height="22" colspan="2" align="center"><strong>USSD</strong></td>
