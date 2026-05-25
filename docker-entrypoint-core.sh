@@ -55,5 +55,4 @@ cd /usr/local/goip
 ./goipcron inc/config.inc.php
 
 # Tail mysql log to keep PID 1 alive and surface events
-tail -F /var/log/mysql/error.log &
-wait "$!"
+exec tail -F /var/log/mysql/error.log

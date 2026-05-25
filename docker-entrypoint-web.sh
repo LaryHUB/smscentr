@@ -43,5 +43,8 @@ for i in $(seq 1 60); do
     sleep 1
 done
 
-apache2ctl -D FOREGROUND &
-wait "$!"
+# Load Apache env (APACHE_RUN_USER etc.), drop any stale pidfile, then exec
+# apache directly as PID 1 so signals + container lifecycle work cleanly.
+. /etc/apache2/envvars
+rm -f /var/run/apache2/apache2.pid
+exec /usr/sbin/apache2 -DFOREGROUND
