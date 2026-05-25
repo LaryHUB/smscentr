@@ -106,39 +106,16 @@
     //        show them when user actually picks something, dedupe footer copy ---
     function rowOf(el) { while (el && el.tagName !== 'TR') el = el.parentNode; return el; }
 
-    function setStatusBarsVisibility() {
-        var ids = ['td01', 'td02'];
-        for (var i = 0; i < ids.length; i++) {
-            var td = document.getElementById(ids[i]);
-            if (!td) continue;
-            var t = (td.textContent || '').trim();
-            var isFooter = (ids[i] === 'td02');
-            var isZero = /(\b0\s+Channels|\bchoosed\s+0|\bselected\s+0)/i.test(t);
-            var tr = rowOf(td);
-            if (!tr) continue;
-            if (isFooter) {
-                if (tr.parentNode) tr.parentNode.removeChild(tr);
-                continue;
-            }
-            tr.style.display = isZero ? 'none' : '';
-        }
-    }
-
-    function watchStatusBars() {
-        var td01 = document.getElementById('td01');
-        if (!td01) return;
-        // Re-evaluate when text changes (CheckAll/trclick updates innerText)
-        var mo = new MutationObserver(setStatusBarsVisibility);
-        mo.observe(td01, { childList: true, subtree: true, characterData: true });
-        // Also re-check on any checkbox change in the form
-        document.addEventListener('change', function(e){
-            if (e.target && e.target.type === 'checkbox') setStatusBarsVisibility();
-        });
-    }
-
     function dedupStatusBars() {
-        setStatusBarsVisibility();
-        watchStatusBars();
+        // Both vendor status bars ("Now choosed/selected N Channels") are unwanted.
+        // Keep td01/td02 elements alive (vendor JS writes to them) but force their
+        // rows to stay invisible no matter what text is set.
+        ['td01', 'td02'].forEach(function(id){
+            var td = document.getElementById(id);
+            if (!td) return;
+            var tr = rowOf(td);
+            if (tr) tr.style.setProperty('display', 'none', 'important');
+        });
     }
 
     // --- Keep only these two actions in the top toolbar; drop the rest. ---
