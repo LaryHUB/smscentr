@@ -343,6 +343,13 @@ tr.tdbg td label, tr.tdbg td b { vertical-align: middle; }
 	color: #8898ad;
 }
 
+/* Hide vendor footer status bar immediately (JS removes it later, this prevents flash) */
+#td02, tr:has(> #td02) { display: none !important; }
+
+/* Hide vendor 'Navigation:' label and the row it sits in until JS promotes the links.
+   This stops them flashing during initial render or showing when user hits Shift+arrows etc. */
+[id^="td02"] { display: none !important; }
+
 /* "Choose current page / Choose all" toolbar */
 .choose-toolbar {
 	display: inline-block;

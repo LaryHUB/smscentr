@@ -112,16 +112,15 @@
             var td = document.getElementById(ids[i]);
             if (!td) continue;
             var t = (td.textContent || '').trim();
-            // Hide on the duplicate footer always; hide top bar when count is 0
             var isFooter = (ids[i] === 'td02');
             var isZero = /(\b0\s+Channels|\bchoosed\s+0|\bselected\s+0)/i.test(t);
             var tr = rowOf(td);
             if (!tr) continue;
             if (isFooter) {
-                tr.style.display = 'none';
-            } else {
-                tr.style.display = isZero ? 'none' : '';
+                if (tr.parentNode) tr.parentNode.removeChild(tr);
+                continue;
             }
+            tr.style.display = isZero ? 'none' : '';
         }
     }
 
@@ -190,7 +189,7 @@
                 target: links[j].getAttribute('target') || 'main'
             });
         }
-        navRow.style.display = 'none';
+        if (navRow.parentNode) navRow.parentNode.removeChild(navRow);
         if (!picked.length) return;
 
         if (!document.getElementById('goip-toolbar-style')) {
@@ -225,14 +224,14 @@
         document.body.appendChild(tb);
     }
 
-    // --- 4. Hide the vendor "Search Column / Search Type / Key" row entirely ---
+    // --- 4. Remove the vendor "Search Column / Search Type / Key" row entirely ---
     function hideSearchRow() {
         var cells = document.querySelectorAll('td');
         for (var i = 0; i < cells.length; i++) {
             var t = cells[i].textContent || '';
             if (t.indexOf('Search Column') !== -1 && t.indexOf('Search Type') !== -1) {
                 var tr = rowOf(cells[i]);
-                if (tr) tr.style.display = 'none';
+                if (tr && tr.parentNode) tr.parentNode.removeChild(tr);
             }
         }
     }
