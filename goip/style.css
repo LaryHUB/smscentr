@@ -392,3 +392,12 @@ tr.row-offline:hover > td {
 	filter: grayscale(0.2);
 }
 tr.row-offline:hover > td * { opacity: 0.9; }
+
+/* Visible horizontal separators between data rows */
+table.border tr.tdbg > td,
+table.border tr.even > td,
+table.border tr.marked > td,
+table.border tr.row-offline > td {
+	border-bottom: 1px solid #dde5f0;
+}
+table.border tr:last-child > td { border-bottom: 0; }
