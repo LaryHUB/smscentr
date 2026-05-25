@@ -522,6 +522,17 @@
         }
     }
 
+    // VoIP cell: green pill for LOGIN, red for LOGOUT, neutral for blank.
+    function colorizeVoip() {
+        var pills = document.querySelectorAll('.voip-status');
+        for (var i = 0; i < pills.length; i++) {
+            var t = (pills[i].textContent || '').trim().toUpperCase();
+            pills[i].classList.remove('ok', 'err');
+            if (t === 'LOGIN') pills[i].classList.add('ok');
+            else if (t === 'LOGOUT') pills[i].classList.add('err');
+        }
+    }
+
     // Dim rows whose device has not registered with our server (Login = LOGOUT).
     function dimOfflineRows() {
         var rows = document.querySelectorAll('tr');
@@ -601,9 +612,10 @@
         setupBatchFab();
         bindRowClickToCheckbox();
         colorizeSignals();
+        colorizeVoip();
         decodeUcs2InTables();
         dimOfflineRows();
         // Re-run after every auto-refresh swap (cheap, runs on small tables only)
-        setInterval(function(){ colorizeSignals(); decodeUcs2InTables(); dimOfflineRows(); }, 1000);
+        setInterval(function(){ colorizeSignals(); colorizeVoip(); decodeUcs2InTables(); dimOfflineRows(); }, 1000);
     });
 })();
