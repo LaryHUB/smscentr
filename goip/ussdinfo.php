@@ -279,5 +279,6 @@ print <<<EOT
 EOT;
 ?>
 
+<script src="inc/auto-refresh.js" defer></script>
 </body>
 </html>
