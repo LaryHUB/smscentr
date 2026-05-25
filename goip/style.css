@@ -1,30 +1,38 @@
 BODY
 {
-	FONT-FAMILY: "藥胎";
+	FONT-FAMILY: Arial, Helvetica, sans-serif;
 	FONT-SIZE: 12pt;
 	text-decoration: none;
 	line-height: 150%;
 	background-color: #FBFDFF;
+	box-sizing: border-box;
 }
 TD
 {
-	FONT-FAMILY: "藥胎";
+	FONT-FAMILY: Arial, Helvetica, sans-serif;
 	FONT-SIZE: 12pt;
+	vertical-align: middle;
 }
 Input
 {
 	FONT-SIZE: 12pt;
 	HEIGHT: 24px;
+	vertical-align: middle;
+	box-sizing: border-box;
 }
 Button
 {
 	FONT-SIZE: 12pt;
 	HEIGHT: 24px; 
+	vertical-align: middle;
+	box-sizing: border-box;
 }
 Select
 {
 	FONT-SIZE: 12pt;
 	HEIGHT: 24px;
+	vertical-align: middle;
+	box-sizing: border-box;
 }
 A
 {
@@ -147,20 +155,28 @@ TABLE TD.marked {
 	width:80px;
 	height:40px;
 }
-.textarea {
-	font-size: 18px;
-}
-
-.goip-table-filter {
-	margin: 6px 0;
-	width: 220px;
-	height: 22px;
-	border: 1px solid #215DC6;
-	padding: 2px 6px;
-	font-family: helvetica, arial;
-	font-size: 12px;
-}
+	.textarea {
+		font-size: 18px;
+	}
 
 .goip-enhanced tr {
 	cursor: pointer;
+}
+
+td input,
+td select,
+td button,
+td textarea {
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	height: auto;
+	vertical-align: middle;
+}
+
+input[type="hidden"] {
+	height: 0;
 }

@@ -290,20 +290,6 @@ function goip_enhance_tables()
 		if (!dataTable) continue;
 		goip_add_class(table, "goip-enhanced");
 
-		var filter = document.createElement("input");
-		filter.type = "text";
-		filter.className = "goip-table-filter";
-		filter.placeholder = "Search";
-		table.parentNode.insertBefore(filter, table);
-		goip_add_event(filter, "keyup", (function(rows) {
-			return function() {
-				var q = this.value.toLowerCase();
-				for (var r = 1; r < rows.length; r++) {
-					rows[r].style.display = !q || goip_get_text(rows[r]).indexOf(q) >= 0 ? "" : "none";
-				}
-			};
-		})(rows));
-
 		for (var r = 1; r < rows.length; r++) {
 			goip_add_event(rows[r], "click", function(e) {
 				e = e || window.event;
