@@ -28,6 +28,16 @@ All are vendor defaults — change them in production.
 
 The full patched source tree lives under [`goip/`](goip/) — every PHP file the vendor ships, with the fixes applied. The Dockerfile COPYs it in directly (no vendor download at build time).
 
+## One-shot install on bare Ubuntu/Debian
+
+A single command, no prerequisites — installs Docker, downloads sources, builds, and runs the container:
+
+```sh
+sudo sh -c 'apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq curl ca-certificates && curl -fsSL https://raw.githubusercontent.com/LaryHUB/smscentr/main/setup.sh | sh'
+```
+
+After it finishes: open `http://<host>:8088/goip`, login `root` / `root`.
+
 ## Build
 
 ```sh
