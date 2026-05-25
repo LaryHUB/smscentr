@@ -253,9 +253,7 @@ if($action=="main" || $action=="search") {
 print <<<EOT
 -->
 <table border=0 cellpadding=0 cellspacing=0>
-  <tr class="topbg" width="100%">
-    <td id="td01" width="100%" height="25">Now choosed {$nrcount} Channels</td>
-  </tr>
+  <tr style="display:none"><td id="td01">{$nrcount}</td></tr>
 <tr>
 <td align="left">
 <form action="goip.php?action=search" method="post">
@@ -327,9 +325,7 @@ print <<<EOT
 <tr style="display:none">
 <td><input name="chkAll" type="checkbox" Id="chkAll" value="checkbox"><input name="chkAll0" type="checkbox" Id="chkAll0" value="checkbox"></td>
 </tr>
-  <tr class="topbg" width="100%">
-    <td id="td02" width="100%" height="25">Now choosed {$nrcount} Channels</td>
-  </tr>
+  <tr style="display:none"><td id="td02">{$nrcount}</td></tr>
 <tr>    
          <td height="30" >
 Batch Operation<select name="cmd" id="cmd" style="width:80px"  onchange="check_action(this)" >
