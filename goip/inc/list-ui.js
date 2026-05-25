@@ -522,6 +522,26 @@
         }
     }
 
+    // Dim rows whose device has not registered with our server (Login = LOGOUT).
+    function dimOfflineRows() {
+        var rows = document.querySelectorAll('tr.tdbg, tr.even, tr.marked');
+        for (var i = 0; i < rows.length; i++) {
+            var cells = rows[i].cells;
+            if (!cells || cells.length < 3) continue;
+            // Skip if row contains form inputs (control row) or has no .gsm-status (not a device row)
+            if (!rows[i].querySelector('.gsm-status') && !rows[i].querySelector('input[name^="Id"]')) continue;
+            // The Login/alive column is the 3rd cell (index 2): checkbox | ID | Login | GSM | ...
+            var loginCell = cells[2];
+            if (!loginCell) continue;
+            var v = (loginCell.textContent || '').trim().toUpperCase();
+            if (v === 'LOGOUT' || v === '0' || v === '') {
+                rows[i].classList.add('row-offline');
+            } else {
+                rows[i].classList.remove('row-offline');
+            }
+        }
+    }
+
     // GSM column: show only the signal number, colour-graded red→green by
     // signal strength. LOGOUT / not-registered → "99" in red.
     // 99 is the GSM CSQ convention for "no service / unknown".
@@ -587,7 +607,8 @@
         bindRowClickToCheckbox();
         colorizeSignals();
         decodeUcs2InTables();
+        dimOfflineRows();
         // Re-run after every auto-refresh swap (cheap, runs on small tables only)
-        setInterval(function(){ colorizeSignals(); decodeUcs2InTables(); }, 1000);
+        setInterval(function(){ colorizeSignals(); decodeUcs2InTables(); dimOfflineRows(); }, 1000);
     });
 })();
