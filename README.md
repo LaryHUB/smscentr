@@ -81,6 +81,27 @@ A prebuilt image is attached to GitHub Releases as `goip-sms-server.tar.gz`. Dow
 
 Open MySQL to the network only if you trust it — the `goip` user has the default password `goip`.
 
+## Data persistence
+
+MySQL data lives in the named docker volume `goip-mysql`. It survives `docker rm` and `docker build` — rebuild the image as many times as you want, the database stays.
+
+Entrypoint logic on container start:
+- **Empty volume** → imports `goipinit.sql` from the image (fresh install).
+- **Existing volume with `goip` database** → keeps the data and runs `update.php` to apply any new schema migrations (vendor's idempotent `ALTER TABLE` script).
+
+To force a fresh install, delete the volume:
+
+```sh
+docker rm -f goip-sms-server
+docker volume rm goip-mysql
+```
+
+To back up before risky changes:
+
+```sh
+docker exec goip-sms-server mysqldump -uroot goip > goip-$(date +%F).sql
+```
+
 ## Repo layout
 
 ```

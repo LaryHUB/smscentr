@@ -26,7 +26,11 @@ until mysqladmin ping --silent; do
 done
 
 if ! mysql -uroot -e "USE goip" >/dev/null 2>&1; then
+    echo "[entrypoint] no goip database found in the volume — installing fresh schema"
     mysql -uroot < /usr/local/goip/goipinit.sql
+else
+    echo "[entrypoint] existing goip database in the volume — preserving data, applying any new schema changes"
+    cd /usr/local/goip && php5 update.php >/dev/null 2>&1 || echo "[entrypoint] update.php exited non-zero (continuing — schema may already be current)"
 fi
 
 # Grant the goip user access from any host (default vendor sql only grants @localhost)
