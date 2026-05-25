@@ -377,14 +377,18 @@ tr.tdbg td label, tr.tdbg td b { vertical-align: middle; }
 }
 .gsm-signal:empty { display:none; }
 
-/* Devices that have not registered with our server — dimmed */
-tr.row-offline {
-	opacity: 0.45;
-	color: #8898ad;
-	filter: grayscale(0.6);
+/* Devices that have not registered with our server — dimmed.
+   opacity on <tr> is unreliable across browsers; apply to cells/contents. */
+tr.row-offline > td {
+	color: #a8b3c4 !important;
+	background: #f6f8fc !important;
+	filter: grayscale(0.65);
+	transition: filter .15s, color .15s, background .15s;
 }
-tr.row-offline:hover {
-	opacity: 0.85;
+tr.row-offline > td * { opacity: 0.55; }
+tr.row-offline:hover > td {
+	color: #5a738f !important;
+	background: #eef3fb !important;
 	filter: grayscale(0.2);
 }
-tr.row-offline .gsm-signal { opacity: 0.7; }
+tr.row-offline:hover > td * { opacity: 0.9; }
