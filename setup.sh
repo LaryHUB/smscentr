@@ -19,17 +19,20 @@ err() { printf '\033[1;31m[error]\033[0m %s\n' "$*" >&2; exit 1; }
 
 [ "$(id -u)" -eq 0 ] || err "run as root or via sudo"
 
-# 1. dependencies
-for cmd in curl tar; do
-    command -v "$cmd" >/dev/null 2>&1 || {
-        log "installing $cmd"
-        if   command -v apt-get >/dev/null 2>&1; then apt-get update -qq && apt-get install -y "$cmd"
-        elif command -v yum     >/dev/null 2>&1; then yum install -y "$cmd"
-        elif command -v dnf     >/dev/null 2>&1; then dnf install -y "$cmd"
-        elif command -v apk     >/dev/null 2>&1; then apk add --no-cache "$cmd"
-        else err "no supported package manager (apt/yum/dnf/apk)"; fi
-    }
-done
+export DEBIAN_FRONTEND=noninteractive
+
+# 1. dependencies — bare Ubuntu/Debian ships without curl on minimal images
+if command -v apt-get >/dev/null 2>&1; then
+    apt-get update -qq
+    apt-get install -y -qq --no-install-recommends curl ca-certificates tar >/dev/null
+elif command -v yum     >/dev/null 2>&1; then yum install -y curl ca-certificates tar >/dev/null
+elif command -v dnf     >/dev/null 2>&1; then dnf install -y curl ca-certificates tar >/dev/null
+elif command -v apk     >/dev/null 2>&1; then apk add --no-cache curl ca-certificates tar >/dev/null
+else
+    for cmd in curl tar; do
+        command -v "$cmd" >/dev/null 2>&1 || err "$cmd missing and no supported package manager (apt/yum/dnf/apk)"
+    done
+fi
 
 # 2. docker
 if ! command -v docker >/dev/null 2>&1; then
