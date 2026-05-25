@@ -522,14 +522,21 @@
         }
     }
 
-    // VoIP cell: green pill for LOGIN, red for LOGOUT, neutral for blank.
+    // State cell: colour-code voip_state (idle / dialing / alerting / connected / incoming / logout)
     function colorizeVoip() {
-        var pills = document.querySelectorAll('.voip-status');
+        var pills = document.querySelectorAll('.voip-state');
         for (var i = 0; i < pills.length; i++) {
-            var t = (pills[i].textContent || '').trim().toUpperCase();
-            pills[i].classList.remove('ok', 'err');
-            if (t === 'LOGIN') pills[i].classList.add('ok');
-            else if (t === 'LOGOUT') pills[i].classList.add('err');
+            var t = (pills[i].textContent || '').trim().toLowerCase();
+            pills[i].classList.remove('s-idle','s-dialing','s-alerting','s-connected','s-incoming','s-logout','s-unknown');
+            if (!t) { pills[i].textContent = 'idle'; pills[i].classList.add('s-idle'); continue; }
+            if (t === 'idle')        pills[i].classList.add('s-idle');
+            else if (t === 'dialing' || t === 'dial')   pills[i].classList.add('s-dialing');
+            else if (t === 'alerting' || t === 'allerting') pills[i].classList.add('s-alerting');
+            else if (t === 'connected' || t === 'inuse' || t === 'busy') pills[i].classList.add('s-connected');
+            else if (t === 'incoming' || t === 'ring' || t === 'ringing') pills[i].classList.add('s-incoming');
+            else if (t === 'logout') pills[i].classList.add('s-logout');
+            else pills[i].classList.add('s-unknown');
+            pills[i].textContent = t;
         }
     }
 
