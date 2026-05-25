@@ -266,13 +266,35 @@
                 '#goip-fab-menu .gm-danger:hover { background:#fef2f2; color:#c53030; }' +
                 '#goip-fab-menu .gm-primary { background:#0a7d2a; color:#fff; font-weight:600; margin-bottom:2px; }' +
                 '#goip-fab-menu .gm-primary:hover { background:#075f1f; color:#fff; }' +
-                '#goip-modal { position:fixed; inset:0; background:rgba(15,30,55,0.55); z-index:9500; display:none; align-items:center; justify-content:center; padding:16px; }' +
+                '#goip-modal { position:fixed; inset:0; background:rgba(15,30,55,0.55); z-index:9500; display:none; align-items:center; justify-content:center; padding:16px; font:13px -apple-system,Segoe UI,sans-serif; color:#1f2f46; }' +
                 '#goip-modal.open { display:flex; }' +
                 '#goip-modal .modal-box { background:#fff; border-radius:10px; box-shadow:0 24px 60px rgba(0,0,0,.35); width:min(560px, 92vw); max-height:88vh; display:flex; flex-direction:column; overflow:hidden; }' +
-                '#goip-modal .modal-head { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:#215DC6; color:#fff; font:600 14px -apple-system,Segoe UI,sans-serif; }' +
+                '#goip-modal .modal-head { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:linear-gradient(180deg,#2d6ad1,#215DC6); color:#fff; font:600 14px -apple-system,Segoe UI,sans-serif; }' +
                 '#goip-modal .modal-close { background:transparent; border:0; color:#fff; font-size:22px; line-height:1; cursor:pointer; padding:0 4px; border-radius:4px; }' +
                 '#goip-modal .modal-close:hover { background:rgba(255,255,255,.18); }' +
-                '#goip-modal iframe { flex:1 1 auto; width:100%; border:0; background:#fff; min-height:380px; }' +
+                '#goip-modal .modal-body { flex:1 1 auto; overflow:auto; padding:16px 18px; }' +
+                '#goip-modal .modal-body .adf-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; }' +
+                '#goip-modal .modal-body .adf-field { display:flex; flex-direction:column; gap:3px; font-size:12px; }' +
+                '#goip-modal .modal-body .adf-field.adf-checkbox { flex-direction:row; align-items:center; gap:6px; padding-top:18px; }' +
+                '#goip-modal .modal-body .adf-label { font-weight:500; color:#475569; }' +
+                '#goip-modal .modal-body .adf-label em { color:#c53030; font-style:normal; }' +
+                '#goip-modal .modal-body .adf-hint { font-size:11px; color:#8898ad; }' +
+                '#goip-modal .modal-body input, #goip-modal .modal-body select { width:100%; padding:7px 9px; border:1px solid #d0dcef; border-radius:5px; font:13px -apple-system,Segoe UI,sans-serif; background:#fff; color:#1f2f46; box-sizing:border-box; transition:border-color .12s, box-shadow .12s; }' +
+                '#goip-modal .modal-body input:focus, #goip-modal .modal-body select:focus { outline:none; border-color:#428EFF; box-shadow:0 0 0 3px rgba(66,142,255,.2); }' +
+                '#goip-modal .modal-body input[type=checkbox] { width:auto; }' +
+                '#goip-modal .modal-body details { margin-top:14px; border-top:1px solid #eef3fb; padding-top:10px; }' +
+                '#goip-modal .modal-body summary { cursor:pointer; font-weight:500; color:#475569; padding:4px 0; user-select:none; }' +
+                '#goip-modal .modal-body summary:hover { color:#215DC6; }' +
+                '#goip-modal .modal-body details[open] summary { margin-bottom:8px; }' +
+                '#goip-modal .modal-body .adf-error { background:#fef2f2; border:1px solid #fecaca; color:#c53030; padding:8px 12px; border-radius:5px; margin-top:12px; font-size:12px; }' +
+                '#goip-modal .modal-foot { padding:12px 18px; border-top:1px solid #eef3fb; display:flex; justify-content:flex-end; gap:8px; background:#fafcff; }' +
+                '#goip-modal .adf-btn { padding:7px 18px; border-radius:5px; font:500 13px -apple-system,Segoe UI,sans-serif; cursor:pointer; border:1px solid transparent; transition:background .12s, transform .05s; }' +
+                '#goip-modal .adf-btn-primary { background:#0a7d2a; color:#fff; border-color:#075f1f; }' +
+                '#goip-modal .adf-btn-primary:hover { background:#075f1f; }' +
+                '#goip-modal .adf-btn-primary:disabled { background:#9ca3af; border-color:#6b7280; cursor:wait; }' +
+                '#goip-modal .adf-btn-secondary { background:#fff; color:#475569; border-color:#d0dcef; }' +
+                '#goip-modal .adf-btn-secondary:hover { background:#f1f5fb; }' +
+                '#goip-modal .adf-loading { padding:30px; text-align:center; color:#8898ad; font-size:12px; }' +
                 '@media (max-width:720px){ #goip-fab{right:14px;bottom:14px;} #goip-fab-menu{right:14px;bottom:66px;} .batch-row.show{right:14px;bottom:66px;} #goip-modal .modal-box{width:96vw;max-height:94vh;} }'
             ));
             document.head.appendChild(st);
@@ -357,7 +379,7 @@
         document.body.appendChild(fab);
     }
 
-    // Modal that wraps the vendor "Add GoIP" form so users never leave the list.
+    // Modal hosting a modernized custom Add Device form (no iframe, no page nav).
     function openAddDeviceModal() {
         var modal = document.getElementById('goip-modal');
         if (!modal) {
@@ -368,32 +390,109 @@
                   '<div class="modal-head"><span>Add GoIP device</span>' +
                     '<button type="button" class="modal-close" aria-label="Close">&times;</button>' +
                   '</div>' +
-                  '<iframe name="goip-modal-frame" src="about:blank"></iframe>' +
+                  '<div class="modal-body"><div class="adf-loading">Loading…</div></div>' +
                 '</div>';
             document.body.appendChild(modal);
             modal.querySelector('.modal-close').addEventListener('click', closeAddDeviceModal);
             modal.addEventListener('click', function(e){ if (e.target === modal) closeAddDeviceModal(); });
-            document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAddDeviceModal(); });
+            document.addEventListener('keydown', function(e){
+                if (e.key === 'Escape' && modal.classList.contains('open')) closeAddDeviceModal();
+            });
         }
-        var frame = modal.querySelector('iframe');
-        frame.src = 'goip.php?action=add';
-        // When the form submits and the page redirects back to the list, close + reload parent
-        frame.onload = function(){
-            try {
-                var p = frame.contentWindow.location.pathname;
-                var s = frame.contentWindow.location.search || '';
-                // Form redirects to goip.php (no action=add) on success
-                if (/\/goip\.php$/.test(p) && !/action=add/.test(s)) {
-                    closeAddDeviceModal();
-                    location.reload();
-                }
-            } catch(e) { /* cross-origin (shouldn't happen) */ }
-        };
+        var body = modal.querySelector('.modal-body');
+        body.innerHTML = '<div class="adf-loading">Loading…</div>';
         modal.classList.add('open');
+
+        // Determine fragment path based on current location (root vs /en/)
+        var prefix = location.pathname.replace(/[^/]*$/, '');
+        var fragmentUrl = prefix.indexOf('/en/') !== -1 ? '../inc/add_device_form.php' : 'inc/add_device_form.php';
+
+        fetch(fragmentUrl, { credentials: 'same-origin', cache: 'no-store' })
+            .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+            .then(function(html){
+                body.innerHTML = html;
+                // Move action buttons into a sticky footer for nicer UX
+                var form = body.querySelector('#add-device-form');
+                if (!form) return;
+                var actions = form.querySelector('.adf-actions');
+                if (actions) {
+                    var foot = document.createElement('div');
+                    foot.className = 'modal-foot';
+                    while (actions.firstChild) foot.appendChild(actions.firstChild);
+                    actions.parentNode.removeChild(actions);
+                    modal.querySelector('.modal-box').appendChild(foot);
+                    foot.querySelector('[data-action="cancel"]').addEventListener('click', closeAddDeviceModal);
+                    foot.querySelector('.adf-btn-primary').addEventListener('click', function(){ form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true})); });
+                }
+                bindAddDeviceForm(form, modal);
+            })
+            .catch(function(err){
+                body.innerHTML = '<div class="adf-error" style="margin:14px">Failed to load form: ' + err.message + '</div>';
+            });
     }
     function closeAddDeviceModal() {
         var modal = document.getElementById('goip-modal');
-        if (modal) modal.classList.remove('open');
+        if (modal) {
+            modal.classList.remove('open');
+            // Drop the dynamic foot bar so the next open rebuilds clean
+            var foot = modal.querySelector('.modal-foot');
+            if (foot) foot.parentNode.removeChild(foot);
+        }
+    }
+
+    function bindAddDeviceForm(form, modal) {
+        var err = form.querySelector('.adf-error');
+        function showError(msg) {
+            if (!err) return;
+            err.innerHTML = msg;
+            err.hidden = false;
+        }
+        function clearError() {
+            if (!err) return;
+            err.innerHTML = '';
+            err.hidden = true;
+        }
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            clearError();
+            var pw = form.querySelector('[name="Password"]').value;
+            var pw2 = form.querySelector('[name="PwdConfirm"]').value;
+            if (pw !== pw2) { showError('Passwords do not match.'); return; }
+            if (!form.querySelector('[name="name"]').value.trim()) { showError('Device ID is required.'); return; }
+            if (!pw) { showError('Password is required.'); return; }
+
+            var submitBtn = modal.querySelector('.adf-btn-primary');
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Adding…'; }
+
+            var data = new FormData(form);
+            // Vendor expects checkboxes as 'on'/'off' literal strings; ensure unset checkboxes still posted
+            ['fwd_mail_enable', 'fwd_http_enable'].forEach(function(k){
+                if (!data.has(k) || !data.get(k)) data.set(k, 'off');
+                else data.set(k, 'on');
+            });
+
+            fetch(form.action, { method: 'POST', body: data, credentials: 'same-origin' })
+                .then(function(r){ return r.text(); })
+                .then(function(html){
+                    // Vendor returns HTML pages: success contains "Add successfully", errors contain "<li>...</li>"
+                    if (/Add successfully|Modify.*success/i.test(html)) {
+                        closeAddDeviceModal();
+                        location.reload();
+                        return;
+                    }
+                    // Extract <li> error items if present
+                    var matches = html.match(/<li>([^<]+)<\/li>/g);
+                    if (matches && matches.length) {
+                        showError(matches.map(function(m){ return m.replace(/<\/?li>/g, ''); }).join('<br>'));
+                    } else {
+                        showError('Server returned an unexpected response.');
+                    }
+                })
+                .catch(function(e2){ showError('Network error: ' + e2.message); })
+                .then(function(){
+                    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Add device'; }
+                });
+        });
     }
 
     // --- 5. Make 'Choose current page' / 'Choose all' look like a compact toolbar ---
