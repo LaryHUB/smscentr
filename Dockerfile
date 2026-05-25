@@ -33,9 +33,14 @@ RUN chmod -R 777 /usr/local/goip \
         '</Directory>' \
         'RedirectMatch ^/$ /goip/en/' \
         'RedirectMatch ^/goip/?$ /goip/en/' \
+        '<LocationMatch "^/goip/">' \
+        '    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"' \
+        '    Header set Pragma "no-cache"' \
+        '    Header set Expires "Thu, 01 Jan 1970 00:00:00 GMT"' \
+        '</LocationMatch>' \
         > /etc/apache2/conf-available/goip.conf \
     && a2enconf goip \
-    && a2enmod php5 \
+    && a2enmod php5 headers \
     && printf '%s\n' 'ServerName localhost' > /etc/apache2/conf-available/servername.conf \
     && a2enconf servername \
     && printf '%s\n' \
