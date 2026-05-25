@@ -16,7 +16,7 @@ require_once('inc/conn.inc.php');
 			echo "socket_create() failed: reason: " . socket_strerror($socket) . "\n";
 			exit;
 		}
-		if (socket_sendto($socket,"CRON", 4, 0, "127.0.0.1", $port)===false)
+		if (socket_sendto($socket,"CRON", 4, 0, $goipcronhost, $port)===false)
 			echo ("sendto error:". socket_strerror($socket));
 		for($i=0;$i<3;$i++){
 			$read=array($socket);

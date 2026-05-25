@@ -29,7 +29,7 @@ function num_rand($lenth){
 
 function sendto_cron($cmd="goip")
 {
-	global $goipcronport;
+	global $goipcronport, $goipcronhost;
 	if(!$goipcronport) $goipcronport=44444;
 	$flag=0;        
 	/* 此是最新计划， 唤醒服务进程*/
@@ -37,7 +37,7 @@ function sendto_cron($cmd="goip")
 		echo "socket_create() failed: reason: " . socket_strerror($socket) . "\n";
 		exit;           
 	}               
-	if (socket_sendto($socket,$cmd, strlen($cmd), 0, "127.0.0.1", $goipcronport)===false)
+	if (socket_sendto($socket,$cmd, strlen($cmd), 0, $goipcronhost, $goipcronport)===false)
 		echo ("sendto error");
 	for($i=0;$i<3;$i++){
 		$read=array($socket);

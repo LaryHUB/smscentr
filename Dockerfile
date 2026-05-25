@@ -45,7 +45,9 @@ RUN chmod -R 777 /usr/local/goip \
         > /etc/php5/apache2/conf.d/99-goip.ini
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+COPY docker-entrypoint-core.sh /usr/local/bin/docker-entrypoint-core.sh
+COPY docker-entrypoint-web.sh /usr/local/bin/docker-entrypoint-web.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint*.sh
 
 EXPOSE 80/tcp 44444/udp 3306/tcp
 

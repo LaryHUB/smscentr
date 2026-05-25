@@ -5,11 +5,13 @@ class GoIPCron {
 	private $socket;
 	private $recvid;
 	private $cronport;
+	private $cronhost;
 	public $lastError;
 
 	public function __construct() {
-		global $goipcronport;
+		global $goipcronport, $goipcronhost;
 		$this->cronport = $goipcronport ? $goipcronport : 44444;
+		$this->cronhost = $goipcronhost ? $goipcronhost : '127.0.0.1';
 		$this->recvid = time();
 		$s = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
 		if ($s <= 0) {
@@ -34,7 +36,7 @@ class GoIPCron {
 
 	public function rawSend($buf) {
 		if (!$this->socket) return false;
-		return @socket_sendto($this->socket, $buf, strlen($buf), 0, "127.0.0.1", $this->cronport);
+		return @socket_sendto($this->socket, $buf, strlen($buf), 0, $this->cronhost, $this->cronport);
 	}
 
 	public function handshake($host, $devport, $retries = 3, $timeout = 5) {

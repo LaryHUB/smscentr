@@ -22,7 +22,7 @@ if(($goiprow=$db->fetch_array($query)) ==NULL){
 
 $recvid=time();
 $buf="START $recvid $goiprow[host] $goiprow[port]\n";
-if (@socket_sendto($socket,$buf, strlen($buf), 0, "127.0.0.1", $port)===false){
+if (@socket_sendto($socket,$buf, strlen($buf), 0, $goipcronhost, $port)===false){
 	echo ("sendto error".socket_strerror($socket) . "\n");
 	exit;
 }
@@ -51,7 +51,7 @@ if($i>=3) die("goipcron 服务进程没有响应");
 if(isset($_GET['value']))
 	$_GET['value']=' '.$_GET['value'];
 $buf=$_GET['cmd']." $recvid".$_GET['value']." ".$goiprow[password];
-if (@socket_sendto($socket,$buf, strlen($buf), 0, "127.0.0.1", $port)===false)
+if (@socket_sendto($socket,$buf, strlen($buf), 0, $goipcronhost, $port)===false)
 	echo ("sendto error");
 
 $socks[]=$socket;
@@ -77,7 +77,7 @@ for(;;){
 		echo "select error!";
 	elseif($err==0){ //全体超时
 		$buf="ATALIVE $recvid $goiprow[password]\n";
-		if (@socket_sendto($socket,$buf, strlen($buf), 0, "127.0.0.1", $port)===false)
+		if (@socket_sendto($socket,$buf, strlen($buf), 0, $goipcronhost, $port)===false)
 			echo ("sendto error");
 	}
 	else {
@@ -91,7 +91,7 @@ for(;;){
 		if($now_time-30 > $last_time){
 			$last_time=$now_time;
 			$buf="ATALIVE $recvid $goiprow[password]\n";
-			if (@socket_sendto($socket,$buf, strlen($buf), 0, "127.0.0.1", $port)===false)
+			if (@socket_sendto($socket,$buf, strlen($buf), 0, $goipcronhost, $port)===false)
 				echo ("sendto error");
 		}
 		//$comm=explode(";",$buf);
@@ -101,7 +101,7 @@ for(;;){
 	}
 }
 $buf1="DONE $recvid";
-if (@socket_sendto($socket,$buf1, strlen($buf), 0, "127.0.0.1", $port)===false)
+if (@socket_sendto($socket,$buf1, strlen($buf), 0, $goipcronhost, $port)===false)
         echo ("sendto error");
 
 if(strncmp($buf, "GSM", 3) && strncmp($buf, "ERROR", 5)){

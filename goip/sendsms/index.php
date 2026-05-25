@@ -13,7 +13,7 @@ function do_cron($db, $port)
 			//echo "socket_create() failed: reason: " . socket_strerror($socket) . "\n";
 			//exit;
 		}
-		if (socket_sendto($socket,"CRON2", 5, 0, "127.0.0.1", $port)===false){
+		if (socket_sendto($socket,"CRON2", 5, 0, $goipcronhost, $port)===false){
 			//echo ("sendto error:". socket_strerror($socket));
 		}
 		for($i=0;$i<3;$i++){

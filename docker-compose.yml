@@ -1,0 +1,49 @@
+# Split deployment: critical core (mysql + goipcron) is isolated from the
+# frontend (apache + php). Either container can crash / be rebuilt without
+# affecting the other; devices stay connected to core while web restarts.
+services:
+  goip-core:
+    image: goip-sms-server:patched
+    container_name: goip-core
+    restart: unless-stopped
+    entrypoint: ["/usr/local/bin/docker-entrypoint-core.sh"]
+    networks: [goip-net]
+    ports:
+      - "0.0.0.0:44444:44444/udp"          # devices register here
+      - "127.0.0.1:3306:3306/tcp"           # mysql exposed only to localhost on host
+    volumes:
+      - goip-mysql:/var/lib/mysql
+    environment:
+      GOIP_DB_HOST: localhost
+      GOIP_CRON_HOST: 127.0.0.1
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  goip-web:
+    image: goip-sms-server:patched
+    container_name: goip-web
+    restart: unless-stopped
+    entrypoint: ["/usr/local/bin/docker-entrypoint-web.sh"]
+    depends_on:
+      goip-core:
+        condition: service_healthy
+    networks: [goip-net]
+    ports:
+      - "0.0.0.0:8088:80/tcp"               # web admin
+    volumes:
+      - goip-sessions:/var/lib/php5/sessions
+    environment:
+      GOIP_DB_HOST: goip-core
+      GOIP_CRON_HOST: goip-core
+      GOIP_CRON_PORT: 44444
+
+networks:
+  goip-net:
+    driver: bridge
+
+volumes:
+  goip-mysql:
+  goip-sessions:

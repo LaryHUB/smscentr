@@ -43,7 +43,7 @@ if(($goiprow=$db->fetch_array($query)) ==NULL){
 	for($i=0;$i<3;$i++){
 		$read=array($socket);
 		$buf="START $recvid $goiprow[host] $goiprow[port]\n";
-		if (@socket_sendto($socket,$buf, strlen($buf), 0, "127.0.0.1", $port)===false){
+		if (@socket_sendto($socket,$buf, strlen($buf), 0, $goipcronhost, $port)===false){
 			echo ("sendto error".socket_strerror($socket) . "\n");
 			exit;
 		}
@@ -72,7 +72,7 @@ if(($goiprow=$db->fetch_array($query)) ==NULL){
 	$socks[]=$socket;
 	$timer=2;
 	$timeout=10;
-	if (@socket_sendto($socket,$sendbuf, strlen($sendbuf), 0, "127.0.0.1", $port)===false)
+	if (@socket_sendto($socket,$sendbuf, strlen($sendbuf), 0, $goipcronhost, $port)===false)
 		echo ("sendto error");
 	for(;;){
 		$read=$socks;
@@ -89,7 +89,7 @@ if(($goiprow=$db->fetch_array($query)) ==NULL){
 				echo "<script language=\"javascript\">alert('Timeout! Not get response from Goip')</script>"; 
 				break;
 			}
-			if (@socket_sendto($socket,$sendbuf, strlen($sendbuf), 0, "127.0.0.1", $port)===false)
+			if (@socket_sendto($socket,$sendbuf, strlen($sendbuf), 0, $goipcronhost, $port)===false)
 				echo ("sendto error");
 		}
 		else {
@@ -137,7 +137,7 @@ if(($goiprow=$db->fetch_array($query)) ==NULL){
 		}
 	}
 	$buf1="DONE $recvid";
-	if (@socket_sendto($socket,$buf1, strlen($buf1), 0, "127.0.0.1", $port)===false)
+	if (@socket_sendto($socket,$buf1, strlen($buf1), 0, $goipcronhost, $port)===false)
 		echo ("sendto error");
 
 

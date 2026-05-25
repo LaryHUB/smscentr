@@ -11,14 +11,14 @@ require_once("excel_class.php");
 /*
 function sendto_cron()
 {
-			global $goipcronport;
+			global $goipcronport, $goipcronhost;
 			if(!$goipcronport) $goipcronport=44444;
 			$flag=0;
 			if (($socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP)) <= 0) {
 				echo "socket_create() failed: reason: " . socket_strerror($socket) . "\n";
 				exit;
 			}
-			if (socket_sendto($socket,"goip", 4, 0, "127.0.0.1", $goipcronport)===false)
+			if (socket_sendto($socket,"goip", 4, 0, $goipcronhost, $goipcronport)===false)
 				echo ("sendto error");
 			for($i=0;$i<3;$i++){
 				$read=array($socket);
