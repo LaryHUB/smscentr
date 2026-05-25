@@ -17,7 +17,7 @@ if(!isset($_SESSION['goip_username'])) {
 	<frame name="left" scrolling="auto" marginwIdth="0" marginheight="0" src="left.php">
 	<frameset framespacing="0" border="false" rows="35,*" frameborder="0" scrolling="yes">
 		<frame name="top" scrolling="no" src="top.php">
-		<frame name="main" scrolling="auto" src="main.php" onload="window.top.frames[1].location.reload()">
+		<frame name="main" scrolling="auto" src="main.php">
 	</frameset>
 </frameset><noframes></noframes>
 </html>

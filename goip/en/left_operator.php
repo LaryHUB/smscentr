@@ -25,20 +25,83 @@ a:hover  { color:#428EFF;text-decoration:underline; }
 .menu_title2  { }
 .menu_title2 span  { position:relative; top:2px; left:8px; color:#428EFF; font-weight:bold; }
 
+body { background:#eef3fb; margin:0; font:13px Arial, Helvetica, sans-serif; color:#1f2f46; }
+td { font:13px Arial, Helvetica, sans-serif; }
+a { color:#1f2f46; text-decoration:none; display:block; padding:4px 8px; border-radius:4px; }
+a:hover { color:#1e63c9; background:#eef5ff; text-decoration:none; }
+.menu_title, .menu_title2 { height:28px; cursor:pointer; background:#2f5fa8; border-top:1px solid #6f91ca; border-bottom:1px solid #204983; color:#fff; }
+.menu_title span, .menu_title2 span { display:block; position:relative; top:0; left:0; padding:6px 8px 5px 18px; color:#fff; font-weight:bold; }
+.menu_title span:before, .menu_title2 span:before { content:'\25b8'; position:absolute; left:7px; top:6px; font-size:10px; transition:transform .18s ease; }
+.menu_title.open span:before, .menu_title2.open span:before { transform:rotate(90deg); }
+.menu_title2 { background:#356bb8; }
+.menu_title a, .menu_title2 a { display:inline; padding:0; color:#fff; }
+.menu_title a:hover, .menu_title2 a:hover { background:transparent; color:#dbeaff; }
+.sec_menu { width:185px; overflow:hidden; background:#f7faff; border-left:1px solid #b7c8e8; border-right:1px solid #b7c8e8; border-bottom:1px solid #b7c8e8; box-shadow:inset 0 1px 0 #fff; transition:max-height .22s ease, opacity .18s ease; }
+.sec_menu table { width:177px; margin:3px auto 5px auto; }
+.sec_menu td { height:auto; line-height:18px; }
+.sec_menu a.active { background:#d9e9ff; color:#0d4fab; font-weight:bold; }
+#submenu0 .sec_menu td { padding:3px 8px; color:#33435c; }
+
 </style>
 <SCRIPT language=javascript1.2>
-function showsubmenu(ClassId)
-{
-whichEl = eval("submenu" + ClassId);
-if (whichEl.style.display == "none")
-{
-eval("submenu" + ClassId + ".style.display=\"\";");
+function menuEl(id) { return document.getElementById('submenu' + id); }
+function titleEl(id) { return document.getElementById('menuTitle' + id); }
+function setTitleOpen(id, open) { var t = titleEl(id); if (!t) return; t.className = open ? 'menu_title open' : 'menu_title'; }
+function showsubmenu(ClassId) {
+    var el = menuEl(ClassId);
+    if (!el) return;
+    var box = el.getElementsByTagName('div')[0];
+    if (!box) return;
+    if (el.style.display == 'none') {
+        el.style.display = '';
+        box.style.opacity = 0;
+        box.style.maxHeight = '0px';
+        setTitleOpen(ClassId, true);
+        setTimeout(function(){ box.style.opacity = 1; box.style.maxHeight = box.scrollHeight + 'px'; }, 10);
+    } else {
+        box.style.maxHeight = box.scrollHeight + 'px';
+        setTimeout(function(){ box.style.opacity = 0; box.style.maxHeight = '0px'; }, 10);
+        setTitleOpen(ClassId, false);
+        setTimeout(function(){ el.style.display = 'none'; }, 230);
+    }
 }
-else
-{
-eval("submenu" + ClassId + ".style.display=\"none\";");
+function initMenu() {
+    var titles = document.getElementsByTagName('td');
+    for (var ti=0; ti<titles.length; ti++) {
+        if (titles[ti].id && titles[ti].id.indexOf('menuTitle') === 0) {
+            titles[ti].onmouseover = null;
+            titles[ti].onmouseout = null;
+        }
+    }
+    var divs = document.getElementsByTagName('div');
+    for (var i=0; i<divs.length; i++) {
+        if (divs[i].className == 'sec_menu') {
+            divs[i].style.maxHeight = divs[i].scrollHeight + 'px';
+            divs[i].style.opacity = 1;
+        }
+    }
+    var links = document.getElementsByTagName('a');
+    for (var j=0; j<links.length; j++) {
+        if (links[j].target == 'main') {
+            var oldClick = links[j].onclick;
+            links[j].onclick = (function(oldHandler){
+            return function(){
+                if (oldHandler && oldHandler.call(this) === false) return false;
+                for (var k=0; k<links.length; k++) links[k].className = links[k].className.replace(' active', '').replace('active ', '').replace('active', '');
+                this.className = (this.className ? this.className + ' ' : '') + 'active';
+                if (parent && parent.frames && parent.frames['main']) {
+                    parent.frames['main'].location.href = this.href;
+                    return false;
+                }
+                return true;
+            };
+            })(oldClick);
+        }
+    }
+    setTitleOpen(0, true);
+    setTitleOpen(1, true);
 }
-}
+window.onload = initMenu;
 </SCRIPT>
 </head>
 <BODY leftmargin="0" topmargin="0" marginheight="0" marginwIdth="0">
@@ -314,5 +377,3 @@ echo '<tr><td height=20><a href="upload.php" target=main>Import Receivers</a></t
 </table>
 </body>
 </html>
-
-
