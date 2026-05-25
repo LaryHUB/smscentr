@@ -278,10 +278,6 @@ $select
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=bal"><b>Bal</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=num"><b>SIM Info</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=prov"><b>Provider</b></a></td>
-		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=group_name"><b>Group</b></a></td>
-		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=fwd_mail_enable" title="SMS forward to mail or http"><b>SMS FWD</b></a></td>
-		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=host"><b>IP:Port</b></a></td>
-		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=password"><b>Passwd</b></a></td>
 		<td align=center><b>Operation</b></td>
 	</tr>
 <!--
@@ -313,11 +309,7 @@ print <<<EOT
 		<td align="center" title="check time:{$rs['bal_time']}">{$rs['bal']}</td>
 		<td align="center" title="SIM Number:{$rs['num']}\nIMSI:{$rs['imsi']}\nICCID:{$rs['iccid']}\nIMEI:{$rs['imei']}\nCarrier:{$rs['carrier']}\nCELLINFO:{$rs['CELLINFO']}">SIM Info</td>
 		<td align="center">{$rs['prov']}</td>
-		<td align="center">{$rs['group_name']}</td>
-		<td align="center" title="{$rs['mail_title']}">{$rs['mail']}</td>
-		<td align="center">{$rs['host']}:{$rs['port']}</td>
-		<td align="center">{$rs['password']}</td>
-				
+
 		<td align=center><a href="send.php?goipid={$rs['id']}&type=re" {$rs['sendsms']}>Send SMS</a> | <a href="receive.php?goipname={$rs['name']}">SMS Inbox</a> | <a href="outbox.php?id={$rs['id']}" >SMS Outbox</a> <br>
 <a href="ussd.php?debug=1&TERMID={$rs['name']}">USSD</a> | <a href="goip_record.php?goipid={$rs['id']}">Call_Record</a> | <a href="goip_cdr.php?goipid={$rs['id']}">CDR</a> | <a href="state.php?cmd=GSM&id={$rs['id']}">Status</a> | <a href="goip.php?action=modify&id={$rs['id']}">Modify</a> | <a href="goip.php?id={$rs['id']}&action=del" onClick="return confirm('sure to delete?')">Delete</a></td>
     </tr>
