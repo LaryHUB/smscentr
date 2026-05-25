@@ -74,16 +74,44 @@
         else lastHeaderRow.parentNode.appendChild(tr);
     }
 
-    // --- 3. Deduplicate footer "Now choosed N Channels" status bar ---
-    function dedupStatusBars() {
-        var td01 = document.getElementById('td01');
-        var td02 = document.getElementById('td02');
-        if (td01 && td02) {
-            // Keep td01 only — hide td02 row
-            var row = td02;
-            while (row && row.tagName !== 'TR') row = row.parentNode;
-            if (row) row.style.display = 'none';
+    // --- 3. Hide "Now choosed/selected N Channels" status bars while N==0,
+    //        show them when user actually picks something, dedupe footer copy ---
+    function rowOf(el) { while (el && el.tagName !== 'TR') el = el.parentNode; return el; }
+
+    function setStatusBarsVisibility() {
+        var ids = ['td01', 'td02'];
+        for (var i = 0; i < ids.length; i++) {
+            var td = document.getElementById(ids[i]);
+            if (!td) continue;
+            var t = (td.textContent || '').trim();
+            // Hide on the duplicate footer always; hide top bar when count is 0
+            var isFooter = (ids[i] === 'td02');
+            var isZero = /(\b0\s+Channels|\bchoosed\s+0|\bselected\s+0)/i.test(t);
+            var tr = rowOf(td);
+            if (!tr) continue;
+            if (isFooter) {
+                tr.style.display = 'none';
+            } else {
+                tr.style.display = isZero ? 'none' : '';
+            }
         }
+    }
+
+    function watchStatusBars() {
+        var td01 = document.getElementById('td01');
+        if (!td01) return;
+        // Re-evaluate when text changes (CheckAll/trclick updates innerText)
+        var mo = new MutationObserver(setStatusBarsVisibility);
+        mo.observe(td01, { childList: true, subtree: true, characterData: true });
+        // Also re-check on any checkbox change in the form
+        document.addEventListener('change', function(e){
+            if (e.target && e.target.type === 'checkbox') setStatusBarsVisibility();
+        });
+    }
+
+    function dedupStatusBars() {
+        setStatusBarsVisibility();
+        watchStatusBars();
     }
 
     // --- 4. Make 'Choose current page' / 'Choose all' look like a compact toolbar ---
