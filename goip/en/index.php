@@ -1,8 +1,10 @@
 <?php
-require_once("session.php");
-if(!isset($_SESSION['goip_username'])) {
-	echo "<meta http-equiv=refresh content=0;url=\"../index.php?lan=3\">";
-	exit;
+// /goip/en/index.php — the single entry point. Show login if no session.
+if (!isset($_SESSION['goip_username'])) {
+    define("OK", true);
+    require_once("global.php");
+    require_once("login.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>

@@ -32,6 +32,7 @@ RUN chmod -R 777 /usr/local/goip \
         '    Require all granted' \
         '</Directory>' \
         'RedirectMatch ^/$ /goip/en/' \
+        'RedirectMatch ^/goip/?$ /goip/en/' \
         > /etc/apache2/conf-available/goip.conf \
     && a2enconf goip \
     && a2enmod php5 \
