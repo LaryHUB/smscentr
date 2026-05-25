@@ -142,54 +142,84 @@
         watchStatusBars();
     }
 
-    // --- Promote selected navigation links (Add GoIP, Export) into floating
-    //     toolbar next to the Live indicator; hide the rest of the Navigation row ---
-    var KEEP_LINKS = ['Add GoIP', 'Export'];
+    // --- Promote ALL Navigation links into a floating pill-toolbar
+    //     placed to the left of the Live indicator. Hide the original row. ---
+    var LABEL_MAP = {
+        'GSM LOGOUT Long Time List': 'GSM Logout',
+        'Remain Timeout List': 'Remain',
+        'GoIP List': 'List',
+        'Add GoIP': 'Add',
+        'USSD Records': 'Records',
+        'USSD发送记录': 'Records',
+        '参数管理': 'Settings',
+        '添加机器': 'Add',
+        'GoIP List': 'List'
+    };
+
+    // Distinct accent colours per action so the toolbar reads as a real menu, not a wall of blue.
+    function colorFor(label) {
+        var l = label.toLowerCase();
+        if (l.indexOf('add') !== -1) return ['#0a7d2a', '#075f1f'];        // green
+        if (l.indexOf('export') !== -1) return ['#6b46c1', '#553aa0'];     // purple
+        if (l.indexOf('refresh') !== -1) return ['#475569', '#334155'];    // slate
+        if (l.indexOf('logout') !== -1) return ['#c2410c', '#9a3412'];     // orange
+        if (l.indexOf('remain') !== -1 || l.indexOf('timeout') !== -1) return ['#0891b2', '#0e7490']; // teal
+        return ['#215DC6', '#1a4ba0'];                                     // default blue
+    }
 
     function promoteNavLinks() {
         var navRow = null, navCells = document.querySelectorAll('td');
         for (var i = 0; i < navCells.length; i++) {
             var t = (navCells[i].textContent || '').trim();
-            if (t === 'Navigation:' || /^Navigation\s*:?$/.test(t)) {
+            if (t === 'Navigation:' || /^Navigation\s*:?$/.test(t) || t === 'goip管理导航:') {
                 navRow = rowOf(navCells[i]);
                 break;
             }
         }
         if (!navRow) return;
 
-        // Collect the wanted links from inside this row
         var links = navRow.querySelectorAll('a');
         var picked = [];
         for (var j = 0; j < links.length; j++) {
-            var label = (links[j].textContent || '').trim();
-            for (var k = 0; k < KEEP_LINKS.length; k++) {
-                if (label === KEEP_LINKS[k]) {
-                    picked.push({ label: label, href: links[j].getAttribute('href'), target: links[j].getAttribute('target') || 'main' });
-                }
-            }
+            var raw = (links[j].textContent || '').trim();
+            if (!raw) continue;
+            picked.push({
+                label: LABEL_MAP[raw] || raw,
+                fullLabel: raw,
+                href: links[j].getAttribute('href'),
+                target: links[j].getAttribute('target') || 'main'
+            });
         }
-        // Hide the whole navigation row
         navRow.style.display = 'none';
         if (!picked.length) return;
 
-        // Inject toolbar (CSS first)
         if (!document.getElementById('goip-toolbar-style')) {
             var st = document.createElement('style');
             st.id = 'goip-toolbar-style';
             st.appendChild(document.createTextNode(
-                '#goip-toolbar{position:fixed;top:6px;right:80px;z-index:9000;display:flex;gap:6px;font:12px -apple-system,Segoe UI,sans-serif}' +
-                '#goip-toolbar a{display:inline-block;padding:4px 12px;background:#215DC6;color:#fff;border:1px solid #1a4ba0;border-radius:14px;text-decoration:none;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08);transition:background .15s}' +
-                '#goip-toolbar a:hover{background:#1a4ba0;color:#fff;text-decoration:none}'
+                '#goip-toolbar{position:fixed;top:6px;right:80px;z-index:9000;display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end;max-width:calc(100vw - 100px);font:12px -apple-system,Segoe UI,sans-serif}' +
+                '#goip-toolbar a{display:inline-flex;align-items:center;padding:5px 12px;color:#fff;border-radius:14px;text-decoration:none;font-weight:500;line-height:1;box-shadow:0 1px 3px rgba(0,0,0,.12);transition:background .15s,transform .05s,box-shadow .15s;white-space:nowrap;border:1px solid rgba(0,0,0,.08)}' +
+                '#goip-toolbar a:hover{text-decoration:none;color:#fff;box-shadow:0 2px 5px rgba(0,0,0,.18)}' +
+                '#goip-toolbar a:active{transform:translateY(1px)}' +
+                '@media (max-width:720px){#goip-toolbar{right:50px;top:50px;max-width:calc(100vw - 12px)}}'
             ));
             document.head.appendChild(st);
         }
-        var tb = document.createElement('div');
+        var tb = document.getElementById('goip-toolbar');
+        if (tb) tb.parentNode.removeChild(tb);
+        tb = document.createElement('div');
         tb.id = 'goip-toolbar';
         for (var p = 0; p < picked.length; p++) {
+            var c = colorFor(picked[p].label);
             var a = document.createElement('a');
             a.href = picked[p].href;
             a.target = picked[p].target;
             a.textContent = picked[p].label;
+            a.title = picked[p].fullLabel;
+            a.style.background = c[0];
+            a.style.borderColor = c[1];
+            a.addEventListener('mouseenter', (function(bg){ return function(){ this.style.background = bg; }; })(c[1]));
+            a.addEventListener('mouseleave', (function(bg){ return function(){ this.style.background = bg; }; })(c[0]));
             tb.appendChild(a);
         }
         document.body.appendChild(tb);
