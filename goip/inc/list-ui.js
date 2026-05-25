@@ -258,11 +258,11 @@
                 '#goip-fab .plus::before, #goip-fab .plus::after { content:""; position:absolute; background:#fff; border-radius:1px; left:50%; top:50%; }' +
                 '#goip-fab .plus::before { width:14px; height:2px; transform:translate(-50%,-50%); }' +
                 '#goip-fab .plus::after { width:2px; height:14px; transform:translate(-50%,-50%); }' +
-                '#goip-fab-menu { position:fixed; right:5%; bottom:calc(5% + 60px); z-index:8400; min-width:220px; max-width:80vw; max-height:60vh; overflow:auto; background:#fff; border:1px solid #b7c8e8; border-radius:8px; padding:6px; box-shadow:0 10px 30px rgba(0,0,0,.18); display:none; }' +
+                '#goip-fab-menu { position:fixed; right:5%; bottom:calc(5% + 60px); z-index:8400; min-width:175px; max-width:80vw; max-height:60vh; overflow:auto; background:#fff; border:1px solid #b7c8e8; border-radius:7px; padding:5px; box-shadow:0 8px 24px rgba(0,0,0,.18); display:none; }' +
                 '#goip-fab-menu.open { display:block; }' +
-                '#goip-fab-menu .gm-item { display:block; padding:8px 12px; color:#1f2f46; text-decoration:none; border-radius:5px; font:13px/1.3 -apple-system,Segoe UI,sans-serif; cursor:pointer; border:0; background:transparent; width:100%; text-align:left; }' +
+                '#goip-fab-menu .gm-item { display:block; padding:6px 10px; color:#1f2f46; text-decoration:none; border-radius:4px; font:11px/1.2 -apple-system,Segoe UI,sans-serif; cursor:pointer; border:0; background:transparent; width:100%; text-align:left; }' +
                 '#goip-fab-menu .gm-item:hover { background:#eef5ff; color:#1a4ba0; }' +
-                '#goip-fab-menu .gm-sep { height:1px; background:#eef3fb; margin:4px 0; }' +
+                '#goip-fab-menu .gm-sep { height:1px; background:#eef3fb; margin:3px 0; }' +
                 '#goip-fab-menu .gm-danger:hover { background:#fef2f2; color:#c53030; }' +
                 '@media (max-width:720px){ #goip-fab{right:14px;bottom:14px;} #goip-fab-menu{right:14px;bottom:66px;} .batch-row.show{right:14px;bottom:66px;} }'
             ));
