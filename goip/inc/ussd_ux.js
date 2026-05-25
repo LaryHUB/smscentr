@@ -70,15 +70,27 @@
             }, 250);
 
             // POST without debug=1 -> server returns plain text "OK <msg>" or "ERROR <msg>"
-            var url = POST_PATH + form.action.replace(/^[^?]*/, '').replace(/[?&]debug=1/g, '');
-            if (url.indexOf('?') === -1) url += '?';
-            else if (!/[?&]$/.test(url)) url += '&';
+            var action = form.getAttribute('action') || POST_PATH;
+            var parts = action.split('?');
+            var path = parts[0] || POST_PATH;
+            var query = parts.length > 1 ? parts.slice(1).join('?') : '';
+            var kept = [];
+            if (query) {
+                var params = query.split('&');
+                for (var i = 0; i < params.length; i++) {
+                    if (params[i] && params[i].split('=')[0] != 'debug') kept.push(params[i]);
+                }
+            }
+            var url = path + (kept.length ? '?' + kept.join('&') : '');
 
             var data = new FormData(form);
             data.delete('debug');
 
             fetch(url, { method:'POST', body:data, credentials:'same-origin' })
-                .then(function(r){ return r.text(); })
+                .then(function(r){
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.text();
+                })
                 .then(function(text){
                     clearInterval(timerId);
                     overlay.className = 'ussd-overlay';
@@ -100,7 +112,7 @@
                     overlay.className = 'ussd-overlay';
                     if (resultCell) {
                         resultCell.className = 'tdbg ussd-err';
-                        resultCell.textContent = 'NETWORK ERROR: ' + err.message;
+                        resultCell.textContent = 'HTTP ERROR: ' + err.message;
                     }
                 });
         });
