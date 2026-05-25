@@ -524,21 +524,16 @@
 
     // Dim rows whose device has not registered with our server (Login = LOGOUT).
     function dimOfflineRows() {
-        var rows = document.querySelectorAll('tr.tdbg, tr.even, tr.marked');
+        var rows = document.querySelectorAll('tr');
         for (var i = 0; i < rows.length; i++) {
+            // Only data rows have a name="Id*" checkbox
+            if (!rows[i].querySelector('input[type="checkbox"][name^="Id"]')) continue;
             var cells = rows[i].cells;
             if (!cells || cells.length < 3) continue;
-            // Skip if row contains form inputs (control row) or has no .gsm-status (not a device row)
-            if (!rows[i].querySelector('.gsm-status') && !rows[i].querySelector('input[name^="Id"]')) continue;
-            // The Login/alive column is the 3rd cell (index 2): checkbox | ID | Login | GSM | ...
-            var loginCell = cells[2];
-            if (!loginCell) continue;
-            var v = (loginCell.textContent || '').trim().toUpperCase();
-            if (v === 'LOGOUT' || v === '0' || v === '') {
-                rows[i].classList.add('row-offline');
-            } else {
-                rows[i].classList.remove('row-offline');
-            }
+            // Login/alive column = 3rd cell (index 2): [checkbox][ID][Login][GSM]...
+            var v = (cells[2].textContent || '').trim().toUpperCase();
+            var offline = (v === 'LOGOUT' || v === '0' || v === '');
+            rows[i].classList.toggle('row-offline', offline);
         }
     }
 
