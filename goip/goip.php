@@ -429,6 +429,10 @@ else $action="main";
 
 if($action=="main"  || $action=="search")
 {
+        // Auto-assign provider for devices that reported IMSI but have no provider yet
+        require_once(__DIR__ . '/inc/imsi_provider.php');
+        auto_assign_providers_by_imsi($db);
+
         $where=" where 1 ";
         if($_REQUEST['action']=="search"){
                 $column=myaddslashes($_REQUEST['column']);

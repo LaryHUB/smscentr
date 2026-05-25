@@ -467,9 +467,13 @@ function get_id()
 }
 else $action="main";
 
-//if($_SESSION['goip_adminname']=="admin")	
+//if($_SESSION['goip_adminname']=="admin")
 if($action=="main" || $action=="search" || $action=="export")
 {
+	// Auto-assign provider for devices that have reported IMSI but no provider yet
+	require_once(__DIR__ . '/../inc/imsi_provider.php');
+	auto_assign_providers_by_imsi($db);
+
 	$where=" where 1 ";
 	if($_REQUEST['action']=="search"){
 		$column=myaddslashes($_REQUEST['column']);

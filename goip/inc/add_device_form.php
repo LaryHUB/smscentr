@@ -6,10 +6,6 @@ define("OK", true);
 require_once(__DIR__ . '/conn.inc.php');
 require_once(__DIR__ . '/../session.php');
 
-$providers = array();
-$rs = $db->query("SELECT id, prov FROM prov WHERE prov!=''");
-while ($r = $db->fetch_array($rs)) { $providers[] = $r; }
-
 $groups = array();
 $rs = $db->query("SELECT id, group_name FROM goip_group ORDER BY group_name");
 while ($r = $db->fetch_array($rs)) { $groups[] = $r; }
@@ -26,16 +22,7 @@ while ($r = $db->fetch_array($rs)) { $groups[] = $r; }
             <span class="adf-hint">If &gt; 1, creates ID01, ID02, …</span>
         </label>
 
-        <label class="adf-field">
-            <span class="adf-label">Provider</span>
-            <select name="provider">
-                <option value="0">— None —</option>
-<?php foreach ($providers as $p): ?>
-                <option value="<?php echo (int)$p['id']; ?>"><?php echo htmlspecialchars($p['prov']); ?></option>
-<?php endforeach; ?>
-            </select>
-        </label>
-        <label class="adf-field">
+        <label class="adf-field" style="grid-column:1/-1">
             <span class="adf-label">Group</span>
             <select name="goip_group">
                 <option value="0">— None —</option>
@@ -43,7 +30,9 @@ while ($r = $db->fetch_array($rs)) { $groups[] = $r; }
                 <option value="<?php echo (int)$g['id']; ?>"><?php echo htmlspecialchars($g['group_name']); ?></option>
 <?php endforeach; ?>
             </select>
+            <span class="adf-hint">Provider is detected automatically from the SIM IMSI once the device registers.</span>
         </label>
+        <input type="hidden" name="provider" value="0">
 
         <label class="adf-field">
             <span class="adf-label">Password <em>*</em></span>
