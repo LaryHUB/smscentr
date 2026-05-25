@@ -114,7 +114,19 @@
         watchStatusBars();
     }
 
-    // --- 4. Make 'Choose current page' / 'Choose all' look like a compact toolbar ---
+    // --- 4. Hide the vendor "Search Column / Search Type / Key" row entirely ---
+    function hideSearchRow() {
+        var cells = document.querySelectorAll('td');
+        for (var i = 0; i < cells.length; i++) {
+            var t = cells[i].textContent || '';
+            if (t.indexOf('Search Column') !== -1 && t.indexOf('Search Type') !== -1) {
+                var tr = rowOf(cells[i]);
+                if (tr) tr.style.display = 'none';
+            }
+        }
+    }
+
+    // --- 5. Make 'Choose current page' / 'Choose all' look like a compact toolbar ---
     function styleChecks() {
         var labels = document.querySelectorAll('label, td');
         for (var i = 0; i < labels.length; i++) {
@@ -127,6 +139,7 @@
 
     ready(function(){
         dedupStatusBars();
+        hideSearchRow();
         addEmptyState();
         stylePagination();
         styleChecks();
