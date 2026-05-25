@@ -31,6 +31,30 @@ if(!isset($_SESSION['goip_username'])) {
 </style>
 <script>
 function toggleSide(){ document.getElementById('app').classList.toggle('side-open'); }
+
+// Persist current main-iframe path in the URL hash so refresh keeps you where you were.
+function initRouter(){
+    var main = document.querySelector('iframe[name="main"]');
+    if (!main) return;
+    var SAFE = /^[\w./?&=%#:+,-]+$/;
+
+    // Restore from hash on load
+    var hash = location.hash.replace(/^#/, '');
+    if (hash && SAFE.test(hash) && hash.indexOf('//') === -1) {
+        main.src = hash;
+    }
+
+    // On every iframe navigation, write its URL into the parent hash
+    main.addEventListener('load', function(){
+        try {
+            var loc = main.contentWindow.location;
+            var path = loc.pathname + loc.search;
+            if (history.replaceState) history.replaceState(null, '', '#' + path);
+            else location.hash = path;
+        } catch(e) { /* cross-origin — ignore */ }
+    });
+}
+window.addEventListener('DOMContentLoaded', initRouter);
 </script>
 </head>
 <body>
