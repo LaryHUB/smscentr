@@ -99,7 +99,9 @@ networks:
 
 volumes:
   goip-mysql:
+    name: goip-mysql           # explicit name so we reuse data from prior single-container deploys
   goip-sessions:
+    name: goip-sessions
 EOF
 
 log "starting services via compose"

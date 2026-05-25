@@ -46,4 +46,6 @@ networks:
 
 volumes:
   goip-mysql:
+    name: goip-mysql
   goip-sessions:
+    name: goip-sessions
