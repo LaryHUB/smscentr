@@ -69,7 +69,23 @@ $rs=$db->fetch_array($query=$db->query("SELECT id FROM receive WHERE status=0"))
                 echo '<a href="receive.php"><font color="#FF0000">您收到新的短信</font></a>';
         }
 */
-echo(date("Y-m-d H:i:s T"));
+echo '<span id="goip-clock" data-tz="'.date('T').'" data-offset="'.(date('Z')).'">'.date('Y-m-d H:i:s T').'</span>';
+echo '<script>(function(){
+    var el = document.getElementById("goip-clock");
+    if (!el) return;
+    var tz = el.dataset.tz, offset = parseInt(el.dataset.offset, 10) * 1000;
+    var serverNow = new Date("'.date('c').'").getTime();
+    var localStart = Date.now();
+    function pad(n){ return n < 10 ? "0" + n : n; }
+    function tick(){
+        var t = new Date(serverNow + (Date.now() - localStart));
+        var d = new Date(t.getTime() + offset + new Date().getTimezoneOffset()*60000);
+        el.textContent = d.getFullYear() + "-" + pad(d.getMonth()+1) + "-" + pad(d.getDate()) + " " +
+            pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()) + " " + tz;
+    }
+    tick();
+    setInterval(tick, 1000);
+})();</script>';
 ?>
 
 <!--
