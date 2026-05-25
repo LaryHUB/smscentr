@@ -36,14 +36,16 @@
 
     function userBusy() {
         var a = document.activeElement;
-        if (!a) return false;
+        if (!a || a === document.body) return false;
         var tag = (a.tagName || '').toUpperCase();
+        if (tag === 'TEXTAREA') return true;
         if (tag === 'INPUT') {
+            // Pause only when user is actively typing in a TEXT-like field
             var t = (a.type || 'text').toLowerCase();
-            if (t === 'text' || t === 'search' || t === 'password' || t === 'email' || t === 'tel' || t === 'url' || t === 'number') return true;
-            return false;
+            return (t === 'text' || t === 'search' || t === 'password' || t === 'email' || t === 'tel' || t === 'url' || t === 'number');
         }
-        return tag === 'TEXTAREA' || tag === 'SELECT';
+        // SELECT / contenteditable / etc. — do not pause: we want live data
+        return false;
     }
 
     var indicator;
@@ -88,11 +90,13 @@
     var paused = false, ticking = false, errors = 0;
 
     function tick() {
-        if (paused || ticking || userBusy() || document.hidden) return;
+        if (paused || ticking || document.hidden) return;
+        if (userBusy()) return;
         ticking = true;
-        // Save scroll, fetch, restore.
         var scrollY = window.scrollY || window.pageYOffset;
-        fetch(location.href, { credentials: 'same-origin', headers: { 'X-Auto-Refresh': '1' }, cache: 'no-store' })
+        // Cache-buster + cache:no-store to defeat any proxy / browser cache
+        var bust = (location.href.indexOf('?') === -1 ? '?' : '&') + '_t=' + Date.now();
+        fetch(location.href + bust, { credentials: 'same-origin', headers: { 'X-Auto-Refresh': '1', 'Cache-Control': 'no-cache' }, cache: 'no-store' })
             .then(function(r){
                 if (!r.ok) throw new Error('HTTP ' + r.status);
                 return r.text();
@@ -121,17 +125,15 @@
     }
 
     function init() {
-        if (!findMainTable()) return;     // no data table here, skip
+        if (!findMainTable()) return;
         injectStyle();
-        indicator = makeIndicator(toggle);
-
-        // Pause while hovering a row (user is reading/about to click)
-        document.addEventListener('mouseover', function(e){
-            if (e.target && e.target.closest && e.target.closest('tr')) {
-                indicator && indicator.classList.add('hover-pause');
-            }
-        }, true);
-
+        indicator = makeIndicator(function(){
+            // Click toggles pause AND fires an immediate refresh on resume
+            toggle();
+            if (!paused) tick();
+        });
+        // First tick almost immediately so user doesn't wait the full interval
+        setTimeout(tick, 500);
         setInterval(tick, INTERVAL_MS);
     }
 
