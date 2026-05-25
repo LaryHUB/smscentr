@@ -248,18 +248,23 @@
             st.id = 'goip-fab-style';
             st.appendChild(document.createTextNode(
                 '.batch-row { position:absolute; left:-99999px; height:0; overflow:hidden; }' +
-                '.batch-row.show { position:fixed; left:auto; right:10%; bottom:calc(10% + 70px); height:auto; z-index:8500; background:#fff; border:1px solid #b7c8e8; border-radius:8px; padding:14px 18px; box-shadow:0 10px 30px rgba(0,0,0,.18); display:block; max-width:90vw; }' +
+                '.batch-row.show { position:fixed; left:auto; right:5%; bottom:calc(5% + 72px); height:auto; z-index:8500; background:#fff; border:1px solid #b7c8e8; border-radius:8px; padding:14px 18px; box-shadow:0 10px 30px rgba(0,0,0,.18); display:block; max-width:90vw; }' +
                 '.batch-row.show td { display:block; padding:4px 0; }' +
-                '#goip-fab { position:fixed; right:10%; bottom:10%; width:56px; height:56px; border-radius:50%; background:#215DC6; color:#fff; border:0; cursor:pointer; box-shadow:0 6px 16px rgba(33,93,198,.45); z-index:8900; font:300 32px/52px -apple-system,sans-serif; transition:transform .25s, background .15s, box-shadow .15s; }' +
+                '#goip-fab { position:fixed; right:5%; bottom:5%; width:56px; height:56px; border-radius:50%; background:#215DC6; color:#fff; border:0; cursor:pointer; box-shadow:0 6px 16px rgba(33,93,198,.45); z-index:8900; display:flex; align-items:center; justify-content:center; padding:0; line-height:1; font:300 30px/1 -apple-system,sans-serif; transition:transform .25s ease, background .15s, box-shadow .15s; }' +
                 '#goip-fab:hover { background:#1a4ba0; box-shadow:0 8px 20px rgba(33,93,198,.55); }' +
+                '#goip-fab:focus { outline:none; box-shadow:0 6px 16px rgba(33,93,198,.55), 0 0 0 3px rgba(66,142,255,.35); }' +
                 '#goip-fab.open { transform:rotate(45deg); background:#c53030; }' +
-                '#goip-fab-menu { position:fixed; right:10%; bottom:calc(10% + 70px); z-index:8400; min-width:220px; max-width:80vw; max-height:60vh; overflow:auto; background:#fff; border:1px solid #b7c8e8; border-radius:8px; padding:6px; box-shadow:0 10px 30px rgba(0,0,0,.18); display:none; }' +
+                '#goip-fab .plus { display:block; width:30px; height:30px; position:relative; }' +
+                '#goip-fab .plus::before, #goip-fab .plus::after { content:""; position:absolute; background:#fff; border-radius:1px; left:50%; top:50%; }' +
+                '#goip-fab .plus::before { width:18px; height:2px; transform:translate(-50%,-50%); }' +
+                '#goip-fab .plus::after { width:2px; height:18px; transform:translate(-50%,-50%); }' +
+                '#goip-fab-menu { position:fixed; right:5%; bottom:calc(5% + 72px); z-index:8400; min-width:220px; max-width:80vw; max-height:60vh; overflow:auto; background:#fff; border:1px solid #b7c8e8; border-radius:8px; padding:6px; box-shadow:0 10px 30px rgba(0,0,0,.18); display:none; }' +
                 '#goip-fab-menu.open { display:block; }' +
                 '#goip-fab-menu .gm-item { display:block; padding:8px 12px; color:#1f2f46; text-decoration:none; border-radius:5px; font:13px/1.3 -apple-system,Segoe UI,sans-serif; cursor:pointer; border:0; background:transparent; width:100%; text-align:left; }' +
                 '#goip-fab-menu .gm-item:hover { background:#eef5ff; color:#1a4ba0; }' +
                 '#goip-fab-menu .gm-sep { height:1px; background:#eef3fb; margin:4px 0; }' +
                 '#goip-fab-menu .gm-danger:hover { background:#fef2f2; color:#c53030; }' +
-                '@media (max-width:720px){ #goip-fab{right:16px;bottom:16px;width:52px;height:52px;font-size:28px;line-height:48px;} #goip-fab-menu{right:16px;bottom:80px;} .batch-row.show{right:16px;bottom:80px;} }'
+                '@media (max-width:720px){ #goip-fab{right:14px;bottom:14px;} #goip-fab-menu{right:14px;bottom:78px;} .batch-row.show{right:14px;bottom:78px;} }'
             ));
             document.head.appendChild(st);
         }
@@ -269,7 +274,7 @@
         fab.id = 'goip-fab';
         fab.type = 'button';
         fab.title = 'Batch Operations';
-        fab.innerHTML = '+';
+        fab.innerHTML = '<span class="plus" aria-hidden="true"></span>';
 
         var menu = document.createElement('div');
         menu.id = 'goip-fab-menu';
