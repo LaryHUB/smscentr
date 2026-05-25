@@ -268,8 +268,6 @@ $select
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=id"><b>ID</b></a></td>
                 <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=alive"><b>Login</b></a></td>
                 <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=gsm_status"><b>GSM</b></a></td>
-		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=voip_status"><b>Voip Login</b></a></td>
-                <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=voip_state"><b>Voip State</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=remain_time"><b>Remain Time</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=remain_count"><b>Remain SMS</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=bal"><b>Bal</b></a></td>
@@ -297,8 +295,6 @@ print <<<EOT
                 <td align="center">{$rs['name']}</td>
 		<td align="center" title="update time:{$rs['keepalive_time']}">{$rs['alive']}</td>
                 <td align="center" title="last LOGIN time:{$rs['gsm_login_time']}"><span class="gsm-status">{$rs['gsm_status']}</span><span class="gsm-signal" title="GSM signal">{$rs['signal']}</span></td>
-                <td align="center">{$rs['voip_status']}</td>
-		<td align="center">{$rs['voip_state']}</td>
 		<td align="center">{$rs['remain_time']}</td>
 		<td align="center">{$rs['remain_count']}</td>
 		<td align="center" title="check time:{$rs['bal_time']}">{$rs['bal']}</td>
