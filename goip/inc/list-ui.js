@@ -483,6 +483,45 @@
         }
     }
 
+    // Decode UCS-2 (UTF-16BE) hex strings used by carriers in USSD/SMS responses.
+    // Matches runs of >=8 hex chars whose length is a multiple of 4; replaces with text.
+    function decodeUcs2(str) {
+        if (!str || str.indexOf('0') === -1) return str;
+        return str.replace(/[0-9A-Fa-f]{8,}/g, function(m){
+            var rem = m.length % 4;
+            var hex = rem ? m.substring(0, m.length - rem) : m;
+            var tail = rem ? m.substring(m.length - rem) : '';
+            var out = '';
+            var ok = true;
+            for (var i = 0; i < hex.length; i += 4) {
+                var cp = parseInt(hex.substr(i, 4), 16);
+                // Reject as UCS-2 if we hit a control char (other than \n) early —
+                // likely just a long hex token (id, hash, etc.)
+                if ((cp < 32 && cp !== 10 && cp !== 13 && cp !== 9) || cp > 0xFFFF) { ok = false; break; }
+                out += String.fromCharCode(cp);
+            }
+            return ok ? out + tail : m;
+        });
+    }
+
+    function decodeUcs2InTables() {
+        var cells = document.querySelectorAll('td');
+        for (var i = 0; i < cells.length; i++) {
+            var td = cells[i];
+            if (td.children.length > 0) continue;       // skip cells with markup
+            if (td.dataset.ucs2Decoded === '1') continue;
+            var t = td.textContent || '';
+            if (t.length < 8) continue;
+            // Only act if the cell looks like it contains a long hex run
+            if (!/[0-9A-Fa-f]{8,}/.test(t)) continue;
+            var decoded = decodeUcs2(t);
+            if (decoded !== t) {
+                td.textContent = decoded;
+                td.dataset.ucs2Decoded = '1';
+            }
+        }
+    }
+
     // GSM column: show only the signal number, colour-graded red→green by
     // signal strength. LOGOUT / not-registered → "99" in red.
     // 99 is the GSM CSQ convention for "no service / unknown".
@@ -547,7 +586,8 @@
         setupBatchFab();
         bindRowClickToCheckbox();
         colorizeSignals();
+        decodeUcs2InTables();
         // Re-run after every auto-refresh swap (cheap, runs on small tables only)
-        setInterval(colorizeSignals, 1000);
+        setInterval(function(){ colorizeSignals(); decodeUcs2InTables(); }, 1000);
     });
 })();

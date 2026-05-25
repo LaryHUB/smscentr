@@ -271,7 +271,6 @@ unt"><b>剩余短信</b></a></td>
                 <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=bal"><b>余额</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=num"><b>SIM卡信息</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=prov"><b>服务商</b></a></td>
-		<td align=center><b>操作</b></td>
 	</tr>
 <!--
 EOT;
@@ -300,9 +299,6 @@ print <<<EOT
 		<td align="center" title="check time:{$rs['bal_time']}">{$rs['bal']}</td>
 		<td align="center" title="SIM Number:{$rs['num']}\nIMSI:{$rs['imsi']}\nICCID:{$rs['iccid']}\nIMEI:{$rs['imei']}\nCarrier:{$rs['carrier']}\nCELLINFO:{$rs['CELLINFO']}">SIM卡信息</td>
 		<td align="center">{$rs['prov']}</td>
-
-		<td align=center><a href="send.php?goipid={$rs['id']}&type=re" {$rs['sendsms']}>发送短信</a> | <a href="receive.php?goipname={$rs['name']}">短信收件箱</a> | <a href="outbox.php?id={$rs['id']}" >短信发件箱</a><br />
-<a href="ussd.php?debug=1&TERMID={$rs['name']}">USSD</a> | <a href="goip_record.php?goipid={$rs['id']}">通话记录</a> | <a href="state.php?cmd=GSM&id={$rs['id']}">状态</a> | <a href="goip.php?action=modify&id={$rs['id']}">修改</a> | <a href="goip.php?id={$rs['id']}&action=del" onClick="return confirm('确认删除?')">删除</a></td>
     </tr>
 
 <!--
