@@ -483,7 +483,8 @@
         }
     }
 
-    // GSM signal coloring: 0..31 → red→green gradient; LOGOUT → 99 in red.
+    // GSM column: show only the signal number, colour-graded red→green by
+    // signal strength. LOGOUT / not-registered → "99" in red.
     // 99 is the GSM CSQ convention for "no service / unknown".
     var SIGNAL_MAX = 31;
     function colorizeSignals() {
@@ -493,10 +494,19 @@
             var sig = rows[i].querySelector('.gsm-signal');
             if (!st || !sig) continue;
             var status = (st.textContent || '').trim().toUpperCase();
+            // Hide the LOGIN/LOGOUT text — only the coloured number remains in the cell
+            st.style.display = 'none';
+
+            // Strip any leftover number/pill class look — render as a plain coloured digit
+            sig.style.background = 'transparent';
+            sig.style.padding = '0';
+            sig.style.fontSize = '14px';
+            sig.style.fontWeight = '600';
+            sig.style.fontVariantNumeric = 'tabular-nums';
+
             if (status !== 'LOGIN') {
                 sig.textContent = '99';
                 sig.style.color = '#c53030';
-                sig.style.background = '#fef2f2';
                 continue;
             }
             var v = parseInt((sig.textContent || '').replace(/[^0-9]/g, ''), 10);
@@ -505,8 +515,7 @@
             if (v < 0) v = 0;
             var hue = Math.round((v / SIGNAL_MAX) * 120);   // 0=red → 120=green
             sig.textContent = String(v);
-            sig.style.color = 'hsl(' + hue + ', 72%, 32%)';
-            sig.style.background = 'hsl(' + hue + ', 80%, 94%)';
+            sig.style.color = 'hsl(' + hue + ', 75%, 32%)';
         }
     }
 
