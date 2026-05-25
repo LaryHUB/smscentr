@@ -264,8 +264,7 @@ $select
 		<td wIdth="35" align=center height="25"><b>选择</b></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=id"><b>ID</b></a></td>
                 <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=alive"><b>注册</b></a></td>
-                <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=gsm_status"><b>GSM状态</b></a></td>
-                <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=signal"><b>GSM信号</b></a></td>
+                <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=gsm_status"><b>GSM</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=voip_status"><b>Voip注册</b></a></td>
                 <td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=voip_state"><b>Voip状态</b></a></td>
 		<td align="center"><a href="?action=$action&column=$column&type=$type&s_key=$s_key&order=$order2&order_key=remain_time"><b>剩余时间</b></a></td>
@@ -295,8 +294,7 @@ print <<<EOT
 		<td align=center wIdth="35"><input name="Id{$j}" type='checkbox' onClick="return false" value="{$rs['id']}" $cck></td>
                 <td align="center">{$rs['name']}</td>
 		<td align="center" title="update time:{$rs['keepalive_time']}">{$rs['alive']}</td>
-		<td align="center" title="last LOGIN time:{$rs['gsm_login_time']}">{$rs['gsm_status']}</td>
-                <td align="center">{$rs['signal']}</td>
+		<td align="center" title="last LOGIN time:{$rs['gsm_login_time']}"><span class="gsm-status">{$rs['gsm_status']}</span><span class="gsm-signal" title="GSM signal">{$rs['signal']}</span></td>
                 <td align="center">{$rs['voip_status']}</td>
 		<td align="center">{$rs['voip_state']}</td>
 		<td align="center">{$rs['remain_time']}</td>
