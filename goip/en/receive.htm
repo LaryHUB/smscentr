@@ -49,6 +49,7 @@ function trclick(obj) {
 //		var ckpage=document.modifyform.elements['chkAll'+num];
 		}
 </script>
+<script src="../dynamic.bin" language="javascript"></script>
 </head>
 <body leftmargin="2" topmargin="0" marginwIdth="0" marginheight="0">
 <table wIdth="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="border">
@@ -81,6 +82,7 @@ $select
 <!-- 
 EOT;
 $j=0;
+if (!isset($rsdb) || !is_array($rsdb)) $rsdb = array();
 foreach($rsdb as $rs) {
 $rs['msg']=htmlspecialchars($rs['msg']);
 print <<<EOT
@@ -124,4 +126,3 @@ EOT;
 </form>
 </body>
 </html>
-

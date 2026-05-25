@@ -3,7 +3,7 @@
 define("OK", true);
 require_once("session.php");
 require_once("global.php");
-$rs=$db->fetch_array($db->query("SELECT username,password FROM user WHERE id=1");
+$rs=$db->fetch_array($db->query("SELECT username,password FROM user WHERE id=1"));
 
 /**  
  * 发送post请求  

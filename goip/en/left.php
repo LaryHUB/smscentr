@@ -18,7 +18,7 @@ img  { vertical-align:bottom; border:0px; }
 a  { font:normal 12px ; color:#000000; text-decoration:none; }
 a:hover  { color:#428EFF;text-decoration:underline; }
 
-.sec_menu  { border-left:1px solId white; border-right:1px solId white; border-bottom:1px solId white; overflow:hIdden; background:#D6DFF7; }
+.sec_menu  { border-left:1px solid white; border-right:1px solid white; border-bottom:1px solid white; overflow:hIdden; background:#D6DFF7; }
 .menu_title  { }
 .menu_title span  { position:relative; top:2px; left:8px; color:#000000; font-weight:bold; }
 .menu_title2  { }
@@ -68,7 +68,7 @@ eval("submenu" + ClassId + ".style.display=\"none\";");
 </table>
 <table cellpadding=0 cellspacing=0 wIdth=185 align=center>
   <tr>
-        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle1 onClick="showsubmenu(1)" style="cursor:hand;"> 
+        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle1 onClick="showsubmenu(1)" style="cursor:pointer;"> 
           <span>Send Message</span> </td>
   </tr>
   <tr>
@@ -114,7 +114,7 @@ eval("submenu" + ClassId + ".style.display=\"none\";");
 
 <table cellpadding=0 cellspacing=0 wIdth=185 align=center>
   <tr>
-        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle7 onClick="showsubmenu(7);" style="cursor:hand;">
+        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle7 onClick="showsubmenu(7);" style="cursor:pointer;">
           <span>Auto balance and recharge</span> </td>
   </tr>
   <tr>
@@ -138,7 +138,7 @@ eval("submenu" + ClassId + ".style.display=\"none\";");
 
 <table cellpadding=0 cellspacing=0 wIdth=185 align=center>
   <tr>
-    <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle8 onClick="showsubmenu(8)" style="cursor:hand;"> <span>User Manage</span> </td>
+    <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle8 onClick="showsubmenu(8)" style="cursor:pointer;"> <span>User Manage</span> </td>
   </tr>
   <tr>
     <td style="display:none" Id='submenu8'>
@@ -164,7 +164,7 @@ eval("submenu" + ClassId + ".style.display=\"none\";");
 ?>
 <table cellpadding=0 cellspacing=0 wIdth=185 align=center>
   <tr>
-        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle2 onClick="showsubmenu(2)" style="cursor:hand;"> 
+        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle2 onClick="showsubmenu(2)" style="cursor:pointer;"> 
           <span>Receivers Manage</span> </td>
   </tr>
   <tr>
@@ -191,7 +191,7 @@ echo '<tr><td height=20><a href="upload.php" target=main>Import Receivers</a></t
 ?>
       <table cellpadding=0 cellspacing=0 wIdth=185 align=center>
   <tr>
-        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle44 onClick="showsubmenu(44)" style="cursor:hand;"> 
+        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle44 onClick="showsubmenu(44)" style="cursor:pointer;"> 
           <span>Crowd and Group Manage</span> </td>
   </tr>
   <tr>
@@ -210,7 +210,7 @@ echo '<tr><td height=20><a href="upload.php" target=main>Import Receivers</a></t
 
 <table cellpadding=0 cellspacing=0 wIdth=185 align=center>
   <tr>
-        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle4 onClick="showsubmenu(4);" style="cursor:hand;"> 
+        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle4 onClick="showsubmenu(4);" style="cursor:pointer;"> 
           <span>Data Manage</span> </td>
   </tr>
   <tr>
@@ -232,7 +232,7 @@ echo '<tr><td height=20><a href="upload.php" target=main>Import Receivers</a></t
 
 <table cellpadding=0 cellspacing=0 wIdth=185 align=center>
   <tr>
-        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle7 onClick="showsubmenu(17);" style="cursor:hand;">
+        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle7 onClick="showsubmenu(17);" style="cursor:pointer;">
           <span>IMEI Data</span> </td>
   </tr>
   <tr>
@@ -252,7 +252,7 @@ echo '<tr><td height=20><a href="upload.php" target=main>Import Receivers</a></t
 
 <table cellpadding=0 cellspacing=0 wIdth=185 align=center>
   <tr>
-        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle4 onClick="showsubmenu(5);" style="cursor:hand;"> 
+        <td height=25 class=menu_title onmouseover=this.className='menu_title2'; onmouseout=this.className='menu_title';  Id=menuTitle4 onClick="showsubmenu(5);" style="cursor:pointer;"> 
           <span>System Manage</span> </td>
   </tr>
   <tr>

@@ -238,6 +238,109 @@ function onblur_validate(obj, valid_expr)
 	}
 }
 
+function goip_add_event(obj, name, fn)
+{
+	if (!obj) return;
+	if (obj.addEventListener) obj.addEventListener(name, fn, false);
+	else if (obj.attachEvent) obj.attachEvent("on" + name, fn);
+}
+
+function goip_has_class(obj, name)
+{
+	return (" " + obj.className + " ").indexOf(" " + name + " ") >= 0;
+}
+
+function goip_add_class(obj, name)
+{
+	if (!goip_has_class(obj, name)) obj.className = obj.className ? obj.className + " " + name : name;
+}
+
+function goip_remove_class(obj, name)
+{
+	obj.className = (" " + obj.className + " ").replace(" " + name + " ", " ").replace(/^\s+|\s+$/g, "");
+}
+
+function goip_get_text(obj)
+{
+	return (obj.textContent || obj.innerText || "").toLowerCase();
+}
+
+function goip_enhance_tables()
+{
+	var tables = document.getElementsByTagName("table");
+	for (var i = 0; i < tables.length; i++) {
+		var table = tables[i];
+		var rows = table.getElementsByTagName("tr");
+		if (rows.length < 6 || goip_has_class(table, "goip-enhanced")) continue;
+		var dataTable = false;
+		for (var d = 0; d < rows.length; d++) {
+			if (goip_has_class(rows[d], "even") || goip_has_class(rows[d], "even2") || goip_has_class(rows[d], "marked")) {
+				dataTable = true;
+				break;
+			}
+			var inputs = rows[d].getElementsByTagName("input");
+			for (var di = 0; di < inputs.length; di++) {
+				if (inputs[di].type == "checkbox") {
+					dataTable = true;
+					break;
+				}
+			}
+			if (dataTable) break;
+		}
+		if (!dataTable) continue;
+		goip_add_class(table, "goip-enhanced");
+
+		var filter = document.createElement("input");
+		filter.type = "text";
+		filter.className = "goip-table-filter";
+		filter.placeholder = "Search";
+		table.parentNode.insertBefore(filter, table);
+		goip_add_event(filter, "keyup", (function(rows) {
+			return function() {
+				var q = this.value.toLowerCase();
+				for (var r = 1; r < rows.length; r++) {
+					rows[r].style.display = !q || goip_get_text(rows[r]).indexOf(q) >= 0 ? "" : "none";
+				}
+			};
+		})(rows));
+
+		for (var r = 1; r < rows.length; r++) {
+			goip_add_event(rows[r], "click", function(e) {
+				e = e || window.event;
+				var target = e.target || e.srcElement;
+				var tag = target.tagName ? target.tagName.toLowerCase() : "";
+				if (tag == "a" || tag == "input" || tag == "select" || tag == "button" || tag == "textarea") return;
+				var boxes = this.getElementsByTagName("input");
+				for (var b = 0; b < boxes.length; b++) {
+					if (boxes[b].type == "checkbox") {
+						boxes[b].checked = !boxes[b].checked;
+						if (boxes[b].checked) goip_add_class(this, "marked");
+						else goip_remove_class(this, "marked");
+						break;
+					}
+				}
+			});
+		}
+	}
+}
+
+function goip_protect_forms()
+{
+	var forms = document.getElementsByTagName("form");
+	for (var i = 0; i < forms.length; i++) {
+		goip_add_event(forms[i], "submit", function() {
+			var buttons = this.getElementsByTagName("input");
+			for (var j = 0; j < buttons.length; j++) {
+				if (buttons[j].type == "submit") buttons[j].disabled = true;
+			}
+		});
+	}
+}
+
+goip_add_event(window, "load", function() {
+	goip_enhance_tables();
+});
+
 function onfocus_validate(obj, valid_expr)
 {
 	obj.style.color="";

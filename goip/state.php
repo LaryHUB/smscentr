@@ -28,7 +28,9 @@ if (@socket_sendto($socket,$buf, strlen($buf), 0, "127.0.0.1", $port)===false){
 }
 for($i=0;$i<3;$i++){
 	$read=array($socket);
-	$err=socket_select($read, $write = NULL, $except = NULL, 5);
+	$write = NULL;
+	$except = NULL;
+	$err = socket_select($read, $write, $except, 5);
 	if($err>0){		
 		if(($n=@socket_recvfrom($socket,$buf,1024,0,$ip,$port1))==false){
 			echo("recvform error".socket_strerror($ret)."<br>");
@@ -61,7 +63,9 @@ for(;;){
 	flush();
 	if(count($read)==0)
 		break;
-	$err=socket_select($read, $write = NULL, $except = NULL, $timeout);
+	$write = NULL;
+	$except = NULL;
+	$err = socket_select($read, $write, $except, $timeout);
 	if($err===false)
 		echo "select error!";
 	elseif($err==0){ //全体超时

@@ -73,10 +73,12 @@ Resumption of documents from the server </td>
   <td><select name="serverfile">
     <option value="">-Please choose-</option>
     <?php
-$handle=opendir('../backup');
-while ($file = readdir($handle)) {
-    if(eregi("^[0-9]{8,8}([0-9a-z_]+)(\.sql)$",$file)) echo "<option value='$file'>$file</option>";}
-closedir($handle); 
+if (is_dir('../backup') && ($handle=opendir('../backup'))) {
+    while ($file = readdir($handle)) {
+        if(preg_match("/^[0-9]{8}([0-9a-z_]+)(\\.sql)$/i",$file)) echo "<option value='$file'>$file</option>";
+    }
+    closedir($handle);
+}
 ?>
   </select></td>
   </tr>

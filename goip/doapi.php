@@ -332,7 +332,9 @@ function wait_answer($socks, $sendrow, $goiprow){
 		flush();
 		$read=$socks;
 		$timeout=5;
-		$err=socket_select($read, $write = NULL, $except = NULL, $timeout);
+		$write = NULL;
+		$except = NULL;
+		$err = socket_select($read, $write, $except, $timeout);
 		if($err===false)
 			die("select error!");
 		elseif($err==0){ //全体超时

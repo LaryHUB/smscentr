@@ -190,6 +190,7 @@ GoIP:<?php echo $goip_select ?>
 <!--
 <?php 
 $j=0;
+if (!isset($rsdb) || !is_array($rsdb)) $rsdb = array();
 foreach($rsdb as $rs) {
 print <<<EOT
 -->

@@ -46,7 +46,9 @@ class GoIPCron {
 				continue;
 			}
 			$read = array($this->socket);
-			$err = socket_select($read, $w = NULL, $e = NULL, $timeout);
+			$w = NULL;
+			$e = NULL;
+			$err = socket_select($read, $w, $e, $timeout);
 			if ($err > 0) {
 				$resp = '';
 				if (@socket_recvfrom($this->socket, $resp, 1024, 0, $ip, $p) !== false) {
@@ -62,7 +64,9 @@ class GoIPCron {
 	public function recv(&$response, $timeout = 5) {
 		if (!$this->socket) return -1;
 		$read = array($this->socket);
-		$err = socket_select($read, $w = NULL, $e = NULL, $timeout);
+		$w = NULL;
+		$e = NULL;
+		$err = socket_select($read, $w, $e, $timeout);
 		if ($err === false) return -1;
 		if ($err === 0)     return 0;
 		$response = '';

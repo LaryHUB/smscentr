@@ -14,7 +14,7 @@
 	cursor:pointer;
 }
 .tabitem_active{
-	border-left: 4px solid #CCCCC;
+	border-left: 4px solid #CCCCCC;
 	font-weight:bolder;
 	cursor:pointer;
 }

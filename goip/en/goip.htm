@@ -294,6 +294,7 @@ $select
 	</tr>
 <!--
 EOT;
+if (!isset($rsdb) || !is_array($rsdb)) $rsdb = array();
 $j=0;
 foreach($rsdb as $rs) {
 if(isset($strs0) && in_array($rs['id'],$strs0)){
@@ -375,6 +376,7 @@ Batch Operation<select name="cmd" id="cmd" style="width:80px"  onchange="check_a
           <select name="provider" style="width:135">
 <!--
 EOT;
+if (!isset($prsdb) || !is_array($prsdb)) $prsdb = array();
 foreach($prsdb as $prs){
 if($prs[prov]){
 print <<<EOT
@@ -388,13 +390,14 @@ EOT;
 print <<<EOT
 -->
       </select>
-<input  type="submit" name="Submit" value="Save" style="cursor:hand;">
+<input  type="submit" name="Submit" value="Save" style="cursor:pointer;">
 </div>
 <div style="display:none" id="group_div">group
           <select name="group_id" style="width:135">
 	<option value="0">None(None)</option>
 <!--
 EOT;
+if (!isset($grsdb) || !is_array($grsdb)) $grsdb = array();
 foreach($grsdb as $grs){
 print <<<EOT
 -->
@@ -406,30 +409,30 @@ EOT;
 print <<<EOT
 -->
       </select>
-<input  type="submit" name="Submit" value="Save" style="cursor:hand;">
+<input  type="submit" name="Submit" value="Save" style="cursor:pointer;">
 </div>
 
-<div style="display:none" id="input_key">Value<input type="input" name="key"> <input  type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<div style="display:none" id="input_key">Value<input type="input" name="key"> <input  type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="sms_fwd_mail">SMS Forward to Mail
 <input type="checkbox" name="fwd_mail_enable" id="fwd_mail_enable">
-<input type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="mail_addr">Forward to Mail Addr
 <input type="input" name="report_mail">
-<input type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="sms_fwd_http">SMS Forward to Http
 <input type="checkbox" name="fwd_http_enable" id="fwd_http_enable">
-<input type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="http_addr">Forward to Http Addr
 <input type="input" name="report_http">
-<input type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="input_ussd">USSD CMD
 <input type="input" name="value">
-<input type="submit" name="Submit" value="Send" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Send" style="cursor:pointer;"></div>
 <div style="display:none" id="input_sms">
 <table>
 <tr><td>Number</td><td><input type="input" name="number"></td></tr>
 <tr><td>Content</td><td><textarea name="msg"  rows="3" wrap="virtual" cols="20" class="textarea"></textarea></td></tr>
-<tr><td colspan="2" ><input type="submit" name="Submit" value="Send" style="cursor:hand;"></td></tr>
+<tr><td colspan="2" ><input type="submit" name="Submit" value="Send" style="cursor:pointer;"></td></tr>
 </table>
 </div>
 </td>
@@ -543,8 +546,8 @@ print <<<EOT
     </tr>
     <tr> 
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Action" type="hIdden" Id="Action" value="Modify"> 
-        <input  type="submit" name="Submit" value="  Add  " style="cursor:hand;"> 
-        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='goip.php'" style="cursor:hand;"></td>
+        <input  type="submit" name="Submit" value="  Add  " style="cursor:pointer;"> 
+        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='goip.php'" style="cursor:pointer;"></td>
     </tr>
   </table>
 </form>
@@ -668,8 +671,8 @@ print <<<EOT
 	<tr> <td height="20" colspan="2" align="center"  class="tdbg">Will not change password with blank input_box named "New Password"</td></tr>
     <tr> 
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Id" type="hIdden" Id="Id" value="{$rs['id']}"> 
-        <input  type="submit" name="Submit" value="Save" style="cursor:hand;"> 
-        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='goip.php'" style="cursor:hand;"></td>
+        <input  type="submit" name="Submit" value="Save" style="cursor:pointer;"> 
+        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='goip.php'" style="cursor:pointer;"></td>
     </tr>
   </table>
 </form>

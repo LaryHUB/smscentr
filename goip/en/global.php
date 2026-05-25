@@ -22,7 +22,9 @@ function sendto_cron($cmd="goip", $log=1)
 		echo ("sendto error");
 	for($i=0;$i<3;$i++){
 		$read=array($socket);
-		$err=socket_select($read, $write = NULL, $except = NULL, 5);
+		$write = NULL;
+		$except = NULL;
+		$err = socket_select($read, $write, $except, 5);
 		if($err>0){             
 			if(($n=@socket_recvfrom($socket,$buf,1024,0,$ip,$port))==false){
 				//echo("recvform error".socket_strerror($ret)."<br>");
@@ -65,7 +67,7 @@ function multi($count,$page,$numofpage,$url) {
 				if($flag==4) break;
 			}
 		}
-		$fengye.=" <input type='text' size='2' style='height: 16px; border:1px solId #E7E3E7' onkeydown=\"javascript: if(event.keyCode==13) location='{$url}&page='+this.value;\"> <a href=\"{$url}&page=$numofpage\"> >></a> &nbsp;(共 $numofpage 頁)";
+		$fengye.=" <input type='text' size='2' style='height: 16px; border:1px solid #E7E3E7' onkeydown=\"javascript: if(event.keyCode==13) location='{$url}&page='+this.value;\"> <a href=\"{$url}&page=$numofpage\"> >></a> &nbsp;(共 $numofpage 頁)";
 		return $fengye;
 	}
 }

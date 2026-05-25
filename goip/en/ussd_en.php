@@ -34,7 +34,9 @@ for($i=0;$i<3;$i++){
         	echo ("sendto error".socket_strerror($socket) . "\n");
         	exit;
 	}
-	$err=socket_select($read, $write = NULL, $except = NULL, 5);
+	$write = NULL;
+	$except = NULL;
+	$err = socket_select($read, $write, $except, 5);
 	if($err>0){		
 		if(($n=@socket_recvfrom($socket,$buf,1024,0,$ip,$port1))==false){
 			echo("recvform error".socket_strerror($ret)."<br>");
@@ -67,7 +69,9 @@ for(;;){
 	flush();
 	if(count($read)==0)
 		break;
-	$err=socket_select($read, $write = NULL, $except = NULL, $timeout);
+	$write = NULL;
+	$except = NULL;
+	$err = socket_select($read, $write, $except, $timeout);
 	if($err===false)
 		echo "select error!";
 	elseif($err==0){ //全体超时
@@ -157,7 +161,7 @@ if (@socket_sendto($socket,$buf1, strlen($buf1), 0, "127.0.0.1", $port)===false)
     </tr>
     <tr>                                                                                                          
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Id" type="hIdden" Id="Id" value="{$rs['id']}">
-      		<input  type="submit" name="Submit" value="Send" style="cursor:hand;">
+      		<input  type="submit" name="Submit" value="Send" style="cursor:pointer;">
 	</td>
     </tr>                                                                                                         
   </table>                                                                                                        

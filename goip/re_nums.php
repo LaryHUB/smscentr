@@ -67,7 +67,7 @@ print <<<EOT
       </td>
     </td>
     <tr align="center">
-    <td><input type="submit" name="Submit" value="提交" style="cursor:hand;"></td>
+    <td><input type="submit" name="Submit" value="提交" style="cursor:pointer;"></td>
      </tr>
   </table>
 </form>

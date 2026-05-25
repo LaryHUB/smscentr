@@ -210,7 +210,7 @@ if($debug){
     </tr>
     <tr>                                                                                                          
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Id" type="hIdden" Id="Id" value="{$rs['id']}">
-      		<input  type="submit" name="Submit" value="提交" style="cursor:hand;">
+      		<input  type="submit" name="Submit" value="提交" style="cursor:pointer;">
 	</td>
     </tr>                                                                                                         
   </table>                                                                                                        

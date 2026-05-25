@@ -20,7 +20,9 @@ require_once('inc/conn.inc.php');
                         echo ("sendto error:". socket_strerror($socket));
                 for($i=0;$i<3;$i++){
                         $read=array($socket);
-                        $err=socket_select($read, $write = NULL, $except = NULL, 5);
+                        $write = NULL;
+                        $except = NULL;
+                        $err = socket_select($read, $write, $except, 5);
                         if($err>0){
                                 if(($n=@socket_recvfrom($socket,$buf,1024,0,$ip,$port))==false){
                                         //echo("recvform error".socket_strerror($ret)."<br>");
@@ -114,9 +116,9 @@ function check()
 
     <tr> 
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Action" type="hIdden" Id="Action" value="Modify"> 
-        <input  type="submit" name="Submit" value="保 存" style="cursor:hand;"> 
+        <input  type="submit" name="Submit" value="保 存" style="cursor:pointer;"> 
  
-        &nbsp;<input name="Cancel" type="button" Id="Cancel" value="取 消" onClick="window.location.href='all_send.php'" style="cursor:hand;"></td>
+        &nbsp;<input name="Cancel" type="button" Id="Cancel" value="取 消" onClick="window.location.href='all_send.php'" style="cursor:pointer;"></td>
     </tr>
   </table>
   </form>

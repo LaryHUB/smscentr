@@ -245,6 +245,7 @@ $select
 <!-- 
 EOT;
 $j=0;
+if (!isset($rsdb) || !is_array($rsdb)) $rsdb = array();
 foreach($rsdb as $rs) {
 $rs['USSD_RETURN']=htmlspecialchars($rs['USSD_RETURN']);
 $rs['USSD_RETURN']=str_replace("\n", "<br>", $rs['USSD_RETURN']);

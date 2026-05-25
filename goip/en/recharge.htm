@@ -171,6 +171,7 @@ function show_recharge_con(value){
 	document.getElementById("show_recharge_con_"+value).style.display='';
 }
 </script>
+<script src="../dynamic.bin" language="javascript"></script>
 </head>
 <body leftmargin="2" topmargin="0" marginwIdth="0" marginheight="0">
 <table wIdth="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="border">
@@ -214,6 +215,7 @@ print <<<EOT
 <!--
 EOT;
 $j=0;
+if (!isset($rsdb) || !is_array($rsdb)) $rsdb = array();
 foreach($rsdb as $rs) {
 print <<<EOT
 -->
@@ -573,8 +575,8 @@ print <<<EOT
     </tr>
     <tr> 
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Action" type="hIdden" Id="Action" value="Modify"> 
-        <input  type="submit" name="Submit" value=" ADD " style="cursor:hand;"> 
-        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='recharge.php'" style="cursor:hand;"></td>
+        <input  type="submit" name="Submit" value=" ADD " style="cursor:pointer;"> 
+        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='recharge.php'" style="cursor:pointer;"></td>
     </tr>
 
     <tr> <td height="20" colspan="2" class="tdbg">Notes (Proposed):<br>
@@ -980,8 +982,8 @@ print <<<EOT
     </tr>
      <tr> 
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Id" type="hIdden" Id="Id" value="{$rs['id']}"> 
-        <input  type="submit" name="Submit" value="Save" style="cursor:hand;"> 
-        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='recharge.php'" style="cursor:hand;"></td>
+        <input  type="submit" name="Submit" value="Save" style="cursor:pointer;"> 
+        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='recharge.php'" style="cursor:pointer;"></td>
     </tr>
     <tr> <td height="20" colspan="2"class="tdbg">Notes (Proposed):<br>
 1.  Either USSD or SMS method can be selected to perform balance checking.  <br>

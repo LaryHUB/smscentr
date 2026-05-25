@@ -46,7 +46,7 @@ A:hover
 }
 .border
 {
-	border: 1px solId #215DC6;
+		border: 1px solid #215DC6;
 }
 .tdbg{
 	background:#D6DFF7;
@@ -65,12 +65,12 @@ A:hover
 	background-color: #215DC6;
 }
 .banner	     { background-color: #003366 }
-.sidebar     { background-color: #cccccc }title
+	.sidebar     { background-color: #cccccc }
 .content     { background-color: #ffffff }
 .subtitle    { font-size: 28px; font-weight: bold; font-family:helvetica,arial; color: #ffffff; padding: 8px }
 .title2      { font-size: 14px; font-weight: bold; font-family:helvetica,arial; color: #cccccc; background-color: #003366; padding:6px }
 .title3      { font-size: 14px; font-family:helvetica,arial; color: #003366; padding:6px }
-.savebutton  { font-size: 14px; font-family:helvetica,arial; color: #003366; background-color: #cccccc; cursor: hand; cursor:pointer;border: 0px; padding: 0px; text-align: left}
+	.savebutton  { font-size: 14px; font-family:helvetica,arial; color: #003366; background-color: #cccccc; cursor:pointer;border: 0px; padding: 0px; text-align: left}
 .title4      { font-size: 16px; font-weight: bold; font-family:helvetica,arial; color: #003366; padding:6px }
 .title5      { font-size: 16px; font-family:helvetica,arial; color: #003366; padding:6px }
 .content     { font-size: 12px; color: #003366; font-family:helvetica,arial }
@@ -82,8 +82,8 @@ A:hover
 .valuerange   { font-size: 11px; border: 1px solid #003366; width: 65px; font-family:helvetica,arial }
 .valuerange2   { font-size: 11px; border: 1px solid #003366; width: 65px; font-family:helvetica,arial }
 .select      { font-size: 12px; border: 1px solid #003366; width: 140px; font-family:helvetica,arial }
-.select2     { font-size: 12px; border: 1px solid #003366; width: 80px; font-family:helvetica,arial; left-padding: 5px}
-.button      { font-size: 12px; border: 1px solid #003366; font-family:helvetica,arial; cursor:hand; cursor:pointer }
+	.select2     { font-size: 12px; border: 1px solid #003366; width: 80px; font-family:helvetica,arial; padding-left: 5px}
+	.button      { font-size: 12px; border: 1px solid #003366; font-family:helvetica,arial; cursor:pointer }
 .text        { font-size: 12px; color: #003366; font-family:helvetica,arial }
 .title1      {
 	font-size: 12px;
@@ -103,7 +103,7 @@ a:active     { text-decoration: none; color: #003366; font-size: 12pt }
 .tables{
 	  OVERFLOW:   auto;HEIGHT:   400px; width:98% 
 }
-.spanpage	 { cursor:hand;text-decoration:underline;color:blue;}
+	.spanpage	 { cursor:pointer;text-decoration:underline;color:blue;}
 
 .tdbg2 a.link{
 	background:#D6D000;
@@ -151,3 +151,16 @@ TABLE TD.marked {
 	font-size: 18px;
 }
 
+.goip-table-filter {
+	margin: 6px 0;
+	width: 220px;
+	height: 22px;
+	border: 1px solid #215DC6;
+	padding: 2px 6px;
+	font-family: helvetica, arial;
+	font-size: 12px;
+}
+
+.goip-enhanced tr {
+	cursor: pointer;
+}

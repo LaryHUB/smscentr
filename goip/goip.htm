@@ -382,7 +382,7 @@ EOT;
 print <<<EOT
 -->   
       </select>
-<input  type="submit" name="Submit" value="提交" style="cursor:hand;">
+<input  type="submit" name="Submit" value="提交" style="cursor:pointer;">
 </div>
 <div style="display:none" id="group_div">组
           <select name="group_id" style="width:135">
@@ -400,29 +400,29 @@ EOT;
 print <<<EOT
 -->
       </select>
-<input  type="submit" name="Submit" value="提交" style="cursor:hand;">
+<input  type="submit" name="Submit" value="提交" style="cursor:pointer;">
 </div>
-<div style="display:none" id="input_key">值<input type="input" name="key"> <input  type="submit" name="Submit" value="提交" style="cursor:hand;"></div>
+<div style="display:none" id="input_key">值<input type="input" name="key"> <input  type="submit" name="Submit" value="提交" style="cursor:pointer;"></div>
 <div style="display:none" id="sms_fwd_mail">启用/禁用
 <input type="checkbox" id="fwd_mail_enable" name="fwd_mail_enable" id="fwd_mail_enable">
-<input type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="mail_addr">中转邮件地址
 <input type="input" name="report_mail">
-<input type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="sms_fwd_http">启用/禁用
 <input type="checkbox" name="fwd_http_enable" id="fwd_http_enable">
-<input type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="http_addr">中转到HTTP地址
 <input type="input" name="report_http">
-<input type="submit" name="Submit" value="Save" style="cursor:hand;"></div>
+<input type="submit" name="Submit" value="Save" style="cursor:pointer;"></div>
 <div style="display:none" id="input_ussd">USSD指令
 <input type="input" name="value">
-<input  type="submit" name="Submit" value="提交" style="cursor:hand;"></div>
+<input  type="submit" name="Submit" value="提交" style="cursor:pointer;"></div>
 <div style="display:none" id="input_sms">
 <table>
 <tr><td>号码</td><td><input type="input" name="number"></td></tr>
 <tr><td>内容</td><td><textarea name="msg"  rows="3" wrap="virtual" cols="20" class="textarea"></textarea></td></tr>
-<tr><td colspan="2" ><input type="submit" name="Submit" value="提交" style="cursor:hand;"></td></tr>
+<tr><td colspan="2" ><input type="submit" name="Submit" value="提交" style="cursor:pointer;"></td></tr>
 </table>
 </div>
 </td>
@@ -534,8 +534,8 @@ print <<<EOT
     </tr>
     <tr> 
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Action" type="hIdden" Id="Action" value="Modify"> 
-        <input  type="submit" name="Submit" value="添加" style="cursor:hand;"> 
-        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="取消" onClick="window.location.href='goip.php'" style="cursor:hand;"></td>
+        <input  type="submit" name="Submit" value="添加" style="cursor:pointer;"> 
+        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="取消" onClick="window.location.href='goip.php'" style="cursor:pointer;"></td>
     </tr>
   </table>
 </form>
@@ -665,8 +665,8 @@ print <<<EOT
     <tr> <td height="20" colspan="2" align="center"  class="tdbg">不修改密码将新密码和确认码留空 </td></tr>	
     <tr> 
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Id" type="hIdden" Id="Id" value="{$rs['id']}"> 
-        <input  type="submit" name="Submit" value="确定" style="cursor:hand;"> 
-        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="取消" onClick="window.location.href='goip.php'" style="cursor:hand;"></td>
+        <input  type="submit" name="Submit" value="确定" style="cursor:pointer;"> 
+        &nbsp; <input name="Cancel" type="button" Id="Cancel" value="取消" onClick="window.location.href='goip.php'" style="cursor:pointer;"></td>
     </tr>
 
   </table>

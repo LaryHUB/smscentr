@@ -126,7 +126,9 @@ if($_REQUEST['Submit']=="Recharge"){
 					//error_over($_REQUEST[TERMID], $_REQUEST['USSDMSG'], $errormsg);                                       
 					exit;                            
 				}       
-				$err=socket_select($read, $write = NULL, $except = NULL, 5);
+				$write = NULL;
+				$except = NULL;
+				$err = socket_select($read, $write, $except, 5);
 				if($err>0){                             
 					if(($n=@socket_recvfrom($socket,$buf,1024,0,$ip1,$port1))==false){
 						if($debug) echo("recvform error".socket_strerror($ret)."<br>");
@@ -160,7 +162,9 @@ if($_REQUEST['Submit']=="Recharge"){
 				flush();                                                                                                  
 				if(count($read)==0)                                                                                       
 					break;                                                                                            
-				$err=socket_select($read, $write = NULL, $except = NULL, $timeout);                                       
+				$write = NULL;
+				$except = NULL;
+				$err = socket_select($read, $write, $except, $timeout);                                       
 				if($err===false)                                                                                          
 					echo "ERROR select error!";                                                                       
 				elseif($err==0){ //全体超时                                                                               

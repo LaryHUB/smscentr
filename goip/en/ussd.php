@@ -1,17 +1,18 @@
 <?php
 session_start();
-$debug=$_REQUEST[debug];
+$debug = isset($_REQUEST['debug']) ? $_REQUEST['debug'] : '';
+$termid = isset($_REQUEST['TERMID']) ? $_REQUEST['TERMID'] : '';
 define("OK", true);
 require_once("global.php");
 //if($_SESSION['goip_permissions'] > 1)	
 	//die("Permission denied!");
 if(!get_magic_quotes_gpc()){
-        $_REQUEST[USERNAME]=addslashes($_REQUEST[USERNAME]);
-        $_REQUEST[PASSWORD]=addslashes($_REQUEST[PASSWORD]);
+        $_REQUEST['USERNAME']=isset($_REQUEST['USERNAME']) ? addslashes($_REQUEST['USERNAME']) : '';
+        $_REQUEST['PASSWORD']=isset($_REQUEST['PASSWORD']) ? addslashes($_REQUEST['PASSWORD']) : '';
 }
 if(!isset($_SESSION['goip_username'])){
 	//echo "SELECT id FROM user WHERE username='".$_REQUEST[USERNAME]."' and password='".md5($_REQUEST[PASSWORD])."'";
-        $rs=$db->fetch_array($db->query("SELECT id FROM user WHERE username='".$_REQUEST[USERNAME]."' and password='".md5($_REQUEST[PASSWORD])."'"));
+        $rs=$db->fetch_array($db->query("SELECT id FROM user WHERE username='".$_REQUEST['USERNAME']."' and password='".md5($_REQUEST['PASSWORD'])."'"));
         if(empty($rs[0])){
 		require_once ('login.php');
                 exit;
@@ -68,15 +69,15 @@ else
         $port=44444;
 
 //echo "SELECT prov.*,goip.* FROM goip,prov where prov.id=goip.provider and goip.name=$_REQUEST[TERMID]";
-if($_GET[id]) $query=$db->query("SELECT prov.*,goip.*,goip.id as goipid FROM goip,prov where prov.id=goip.provider and goip.id=$_GET[id]");
-else $query=$db->query("SELECT prov.*,goip.*,goip.id as goipid FROM goip,prov where prov.id=goip.provider and goip.name='$_REQUEST[TERMID]'");
+if(isset($_GET['id']) && $_GET['id']) $query=$db->query("SELECT prov.*,goip.*,goip.id as goipid FROM goip,prov where prov.id=goip.provider and goip.id=".$_GET['id']);
+else $query=$db->query("SELECT prov.*,goip.*,goip.id as goipid FROM goip,prov where prov.id=goip.provider and goip.name='$termid'");
 
 
 
 if(($goiprow=$db->fetch_array($query)) ==NULL){
         $errormsg=("ERROR Not find this TERM");                                                                 
         echo $errormsg;                                                                                           
-        error_over($_REQUEST[TERMID], $_REQUEST['USSDMSG'], $errormsg);
+        error_over($termid, $_REQUEST['USSDMSG'], $errormsg);
 }
 
 if(isset($_REQUEST['USSDMSG'])){
@@ -87,12 +88,12 @@ $cron = new GoIPCron();
 if (!$cron->isOpen()) {
 	$errormsg = "ERROR socket_create() failed: " . $cron->lastError;
 	echo $errormsg;
-	error_over($_REQUEST[TERMID], $_REQUEST['USSDMSG'], $errormsg);
+	error_over($termid, $_REQUEST['USSDMSG'], $errormsg);
 	exit;
 }
 
 if (!$cron->handshake($goiprow[host], $goiprow[port])) {
-	error_over($_REQUEST[TERMID], $_REQUEST['USSDMSG'], "goipcron no response");
+	error_over($termid, $_REQUEST['USSDMSG'], "goipcron no response");
 	if($debug) die("goipcron no response");
 	else echo "ERROR goipcron no response";
 	exit;
@@ -151,7 +152,7 @@ for(;;){
 			$ussdmsg=str_replace("@", "", $ussdmsg);
 			$ussdmsg=$db->real_escape_string($ussdmsg);
 			if(!$debug) echo "OK $ussdmsg";
-			ok_over($_REQUEST[TERMID], $_REQUEST['USSDMSG'], $ussdmsg);
+				ok_over($termid, $_REQUEST['USSDMSG'], $ussdmsg);
 		}
 		else $errormsg="ERROR ".$ussdmsg;
 		$ussdmsg=htmlspecialchars($ussdmsg);
@@ -172,7 +173,7 @@ for(;;){
 	}
 }
 if($errormsg){
-	error_over($_REQUEST[TERMID], $_REQUEST['USSDMSG'], $errormsg);
+		error_over($termid, $_REQUEST['USSDMSG'], $errormsg);
 }
 if(!$debug && $errormsg) {
 	echo $errormsg;
@@ -195,7 +196,7 @@ if($debug){
   </tr>
 </table>
 
-<form method="post" action="ussd.php?debug=1&TERMID=<?php echo $_REQUEST[TERMID] ?>" name="form1">
+<form method="post" action="ussd.php?debug=1&TERMID=<?php echo $termid ?>" name="form1">
   <br>
   <br>
   <table wIdth="600" border="0" align="center" cellpadding="1" cellspacing="1" class="border" >
@@ -208,11 +209,11 @@ if($debug){
     </tr>
     <tr> 
       <td wIdth="180" align="right" class="tdbg"><strong>USSD Command:</strong></td>
-      <td class="tdbg"><input type="input" id="USSDMSG" name="USSDMSG" >  &nbsp;&nbsp;&nbsp;&nbsp;  <a href="ussd.php?TERMID=<?php echo $_REQUEST[TERMID]?>&debug=1&USSDMSG=1&action=exit" target=main onclick="return confirm('Sure to disconnect ussd?');">Disconnect</a></td>
+      <td class="tdbg"><input type="input" id="USSDMSG" name="USSDMSG" >  &nbsp;&nbsp;&nbsp;&nbsp;  <a href="ussd.php?TERMID=<?php echo $termid ?>&debug=1&USSDMSG=1&action=exit" target=main onclick="return confirm('Sure to disconnect ussd?');">Disconnect</a></td>
     </tr>
     <tr>                                                                                                          
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Id" type="hIdden" Id="Id" value="{$rs['id']}">
-      		<input  type="submit" name="Submit" value="Send" style="cursor:hand;">
+      		<input  type="submit" name="Submit" value="Send" style="cursor:pointer;">
 	</td>
     </tr>                                                                                                         
   </table>                                                                                                        

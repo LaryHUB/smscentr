@@ -22,7 +22,9 @@ require_once("global.php");
 				echo ("sendto error:". socket_strerror($socket));
 			for($i=0;$i<3;$i++){
 				$read=array($socket);
-				$err=socket_select($read, $write = NULL, $except = NULL, 5);
+				$write = NULL;
+				$except = NULL;
+				$err = socket_select($read, $write, $except, 5);
 				if($err>0){		
 					if(($n=@socket_recvfrom($socket,$buf,1024,0,$ip,$port))==false){
 						//echo("recvform error".socket_strerror($ret)."<br>");

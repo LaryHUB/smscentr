@@ -553,7 +553,9 @@ function wait_answer($socks, $sendrow, $goiprow){
 		flush();
 		$read=$socks;
 		$timeout=5;
-		$err=socket_select($read, $write = NULL, $except = NULL, $timeout);
+		$write = NULL;
+		$except = NULL;
+		$err = socket_select($read, $write, $except, $timeout);
 		if($err===false)
 			die("select error!");
 		elseif($err==0){ //全体超时
@@ -670,7 +672,7 @@ EOT;
 USSD
 <div id="input_ussd">USSD CMD
 <input type="input" name="value">
-<input  type="submit" name="Submit" value="Submit" style="cursor:hand;"></div>
+<input  type="submit" name="Submit" value="Submit" style="cursor:pointer;"></div>
 </td>
 </tr>
 </table>

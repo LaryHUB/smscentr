@@ -47,7 +47,7 @@ function switchBar(obj)
 <table height="100%" wIdth="100%" border=0 cellpadding=0 cellspacing=0>
 <tr valign=mIddle>
 	<td wIdth=50>
-	<img onClick="switchBar(this)" src="images/admin_top_close.gif" title="关闭左边管理功能表" style="cursor:hand">
+	<img onClick="switchBar(this)" src="images/admin_top_close.gif" title="关闭左边管理功能表" style="cursor:pointer">
 	</td>
 
 	<td wIdth=40>

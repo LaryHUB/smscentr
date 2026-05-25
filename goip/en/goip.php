@@ -22,7 +22,9 @@ function sendto_cron()
 				echo ("sendto error");
 			for($i=0;$i<3;$i++){
 				$read=array($socket);
-				$err=socket_select($read, $write = NULL, $except = NULL, 5);
+				$write = NULL;
+				$except = NULL;
+				$err = socket_select($read, $write, $except, 5);
 				if($err>0){		
 					if(($n=@socket_recvfrom($socket,$buf,1024,0,$ip,$port))==false){
 						//echo("recvform error".socket_strerror($ret)."<br>");
@@ -585,7 +587,12 @@ $select.="<input type=\"submit\" value=\"Search\">\n";
 		Create_Excel_File($filename,$return);
 		//exit;
 	}
-	$query=$db->query("SELECT goip.*,prov.prov,prov.id as provid,group_name FROM goip left join prov on goip.provider=prov.id left join goip_group on goip.group_id=goip_group.id $where $orderby LIMIT $start_limit,$perpage");
+		$rsdb = array();
+		$strs = array();
+		$str = '';
+		$prsdb = array();
+		$grsdb = array();
+		$query=$db->query("SELECT goip.*,prov.prov,prov.id as provid,group_name FROM goip left join prov on goip.provider=prov.id left join goip_group on goip.group_id=goip_group.id $where $orderby LIMIT $start_limit,$perpage");
 
 	//echo ("SELECT goip.*,prov.prov,prov.id as provid FROM goip left join prov on goip.provider=prov.id $where ORDER BY goip.id DESC LIMIT $start_limit,$perpage");
 	while($row=$db->fetch_array($query)) {
@@ -643,11 +650,12 @@ $select.="<input type=\"submit\" value=\"Search\">\n";
 
 	}else {
 		$nrcount=0;
-		$rsdblen=count($rsdb);
+			$rsdblen=count($rsdb);
 	}
+	if (!isset($strs0) || !is_array($strs0)) $strs0 = array();
 	foreach($strs0 as $v){
 		$nrcount++;
-		if(in_array($v,$strs)) continue;
+			if(in_array($v,$strs)) continue;
 		$str.=$v.",";
 	}
 	$str=substr($str,0,strlen($str)-1);

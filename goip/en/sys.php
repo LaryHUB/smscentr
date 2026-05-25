@@ -108,9 +108,9 @@ function check()
 -->	
     <tr> 
       <td height="40" colspan="2" align="center" class="tdbg"><input name="Action" type="hIdden" Id="Action" value="Modify"> 
-        <input  type="submit" name="Submit" value="Modify" style="cursor:hand;"> 
+        <input  type="submit" name="Submit" value="Modify" style="cursor:pointer;"> 
  
-        &nbsp;<input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='sys.php'" style="cursor:hand;"></td>
+        &nbsp;<input name="Cancel" type="button" Id="Cancel" value="Cancel" onClick="window.location.href='sys.php'" style="cursor:pointer;"></td>
     </tr>
   </table>
   </form>

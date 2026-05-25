@@ -75,10 +75,12 @@ if(!$_POST['act']&&!$_SESSION['goip_data_file']){
   <td><select name="serverfile">
     <option value="">-请选择-</option>
     <?php
-$handle=opendir('./backup');
-while ($file = readdir($handle)) {
-    if(eregi("^[0-9]{8,8}([0-9a-z_]+)(\.sql)$",$file)) echo "<option value='$file'>$file</option>";}
-closedir($handle); 
+if (is_dir('./backup') && ($handle=opendir('./backup'))) {
+    while ($file = readdir($handle)) {
+        if(preg_match("/^[0-9]{8}([0-9a-z_]+)(\\.sql)$/i",$file)) echo "<option value='$file'>$file</option>";
+    }
+    closedir($handle);
+}
 ?>
   </select></td>
   </tr>

@@ -46,6 +46,7 @@ function CheckAll(form)
             }
         }
 </script>
+<script src="../dynamic.bin" language="javascript"></script>
 </head>
 <body leftmargin="2" topmargin="0" marginwIdth="0" marginheight="0">
 <table wIdth="100%" border="0" align="center" cellpadding="2" cellspacing="1" class="border">
@@ -95,6 +96,7 @@ print <<<EOT
 <!-- 
 EOT;
 $j=0;
+if (!isset($rsdb) || !is_array($rsdb)) $rsdb = array();
 foreach($rsdb as $rs) {
 $cc="";
 if($row0['type']==9){ //bulk sms
@@ -190,6 +192,7 @@ print <<<EOT
 <!-- 
 EOT;
 $j=0;
+if (!isset($rsdb) || !is_array($rsdb)) $rsdb = array();
 foreach($rsdb as $rs) {
 $rs['msg']=htmlspecialchars($rs['msg']);
 $rs['msg']=str_replace("\n", "<br>", $rs['msg']);

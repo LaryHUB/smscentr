@@ -10,6 +10,7 @@ require_once("global.php");
 
 function second_to_time($t)
 {
+	$n='';
         $h=floor($t/3600);
         $m=floor(($t-3600*$h)/60);
         $s=$t-3600*$h-60*$m;
@@ -27,6 +28,12 @@ $goip_id=$_REQUEST['goipid'];
 $prov_id=$_REQUEST['prov_id'];
 $group_id=$_REQUEST['group_id'];
 //$where="where 1 ";
+$where='';
+$rsdb=array();
+$goip=array();
+$calltime=0;
+$callcount=0;
+$tcount=0;
 if($goip_id) $where.=" and goipid='$goip_id'";
 if($prov_id) $where.=" and provider='$prov_id'";
 if($group_id) $where.=" and group_id='$group_id'";
@@ -38,24 +45,24 @@ $query=$db->query($sql);
 while($row=$db->fetch_array($query)){
 	$calltime+=$row[1];
 	$callcount+=$row[2];
-	$row['acd']=round($row[1]/$row[2]);
+	$row['acd']=$row[2] ? round($row[1]/$row[2]) : 0;
 	$row['acd_s']=second_to_time($row['acd']);;	
 	$row['calltime_s']=second_to_time($row[1]);
 	$rsdb[$row[goipid]]=$row;
 }
 $calltime_s=second_to_time($calltime);
-$acd=round($calltime/$callcount);
+$acd=$callcount ? round($calltime/$callcount) : 0;
 $acd_s=second_to_time($acd);
 
 $sql="SELECT goipid,count(record.id) from record left join goip on goip.id=record.goipid where dir=2 and expiry>=0 and time>'$start_time' and time<'$end_time' $where group by goipid";
 
 $query=$db->query($sql);
 while($row=$db->fetch_array($query)){
-	$rsdb[$row[goipid]]['asr']=(round($rsdb[$row[goipid]][callcount]/$row[1],3)*100)."%";
+	$rsdb[$row[goipid]]['asr']=$row[1] ? (round($rsdb[$row[goipid]][callcount]/$row[1],3)*100)."%" : "0%";
         $rsdb[$row[goipid]][tcount]=$row[1];
         $tcount+=$row[1];
 }
-$asr=(round($callcount/$tcount,3)*100)."%";
+$asr=$tcount ? (round($callcount/$tcount,3)*100)."%" : "0%";
 //echo "asr:".round($rs[1]/$rs1[0],3);
 //print_r($rsdb);
 $wh="where 1 ";
