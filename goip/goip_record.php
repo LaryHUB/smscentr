@@ -233,6 +233,7 @@ EOT;
 					</tr>
 </table>
 				
+<script src="inc/list-ui.js" defer></script>
 <script src="inc/auto-refresh.js" defer></script>
 </body>
 </html>

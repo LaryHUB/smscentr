@@ -249,3 +249,101 @@ td input, td select, td button, td textarea { margin: 2px 0; }
 	.tables { max-height: 70vh; }
 	.subtitle { font-size: 18px; padding: 8px 10px; }
 }
+
+/* ===== List-page polish ===== */
+
+/* Compact status/navigation bars (vendor uses .topbg for these) */
+tr.topbg td { padding: 6px 12px; font-weight: 500; }
+tr.topbg td b, tr.topbg strong { font-weight: 600; margin-right: 6px; }
+tr.topbg td a {
+	color: #fff;
+	padding: 2px 8px;
+	border-radius: 3px;
+	background: rgba(255,255,255,.12);
+	margin: 0 2px;
+	transition: background .15s;
+	display: inline-block;
+}
+tr.topbg td a:hover {
+	background: rgba(255,255,255,.25);
+	color: #fff;
+	text-decoration: none;
+}
+
+/* Column headers (.title row inside data tables) — compact, sticky */
+tr.title td {
+	padding: 7px 8px;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 1.2;
+	text-align: center;
+	white-space: nowrap;
+}
+tr.title {
+	position: sticky;
+	top: 0;
+	z-index: 5;
+}
+
+/* Search/filter row — make horizontal flex if vendor put each field in own cell */
+tr.tdbg td label, tr.tdbg td b { vertical-align: middle; }
+
+/* Pagination as buttons */
+.pg-wrap { padding: 10px 8px; color: #5a738f; font-size: 12px; }
+.pg-wrap a, .pg-wrap .spanpage {
+	display: inline-block;
+	padding: 3px 10px;
+	margin: 0 2px;
+	border: 1px solid #b7c8e8;
+	border-radius: 3px;
+	background: #fff;
+	color: #215DC6;
+	text-decoration: none;
+	font-size: 12px;
+	cursor: pointer;
+	transition: background .15s, border-color .15s;
+}
+.pg-wrap a:hover, .pg-wrap .spanpage:hover {
+	background: #eef5ff;
+	border-color: #428EFF;
+	color: #1a4ba0;
+	text-decoration: none;
+}
+.pg-wrap a.pg-btn { font-weight: 500; }
+.pg-wrap select { height: 26px; margin: 0 4px; }
+
+/* Empty state */
+.empty-row td.empty-state {
+	padding: 50px 20px !important;
+	text-align: center;
+	background: #fafcff;
+	color: #5a738f;
+}
+.empty-state .empty-icon {
+	font-size: 48px;
+	line-height: 1;
+	color: #b7c8e8;
+	margin-bottom: 10px;
+}
+.empty-state .empty-text {
+	font-size: 15px;
+	font-weight: 500;
+	color: #1f2f46;
+	margin-bottom: 4px;
+}
+.empty-state .empty-hint {
+	font-size: 12px;
+	color: #8898ad;
+}
+
+/* "Choose current page / Choose all" toolbar */
+.choose-toolbar {
+	display: inline-block;
+	padding: 4px 10px !important;
+	background: #f3f7ff;
+	border: 1px solid #b7c8e8;
+	border-radius: 3px;
+	margin: 6px 4px;
+	font-size: 12px;
+}
+.choose-toolbar input[type="checkbox"] { margin-right: 4px; }
