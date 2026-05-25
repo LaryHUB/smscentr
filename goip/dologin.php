@@ -70,7 +70,8 @@ if($FoundErr!=true){
 }
 
 if($FoundErr==true){
-	$strErr="<html><head><title>Error Information</title><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>" ;
+	$strErr="<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Error Information</title><meta http-equiv='Content-Type' content='text/html; charset=utf-8'>" ;
 	$strErr=$strErr."<link href='style.css' rel='stylesheet' type='text/css'></head><body>" ;
 	$strErr=$strErr."<table cellpadding=2 cellspacing=1 border=0 wIdth=400 class='border' align=center>"; 
 	$strErr=$strErr."  <tr align='center'><td height='22' class='title'><strong>Wrong message</strong></td></tr>" ;

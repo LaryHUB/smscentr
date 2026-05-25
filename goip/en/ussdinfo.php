@@ -143,6 +143,7 @@ $select.="<input type=\"submit\" value=\"Search\">\n";
 ?>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="../style.css" rel="stylesheet" type="text/css">
 <title>USSD RECORD</title>

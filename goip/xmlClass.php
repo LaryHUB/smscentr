@@ -62,7 +62,8 @@ returns all the information in a complex but loopable array.
 Here's how it works: 
 Data: 
 <html> 
-<head> 
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
 <title>Hans Anderson's XML Class</title> 
 </head> 
 <body> 

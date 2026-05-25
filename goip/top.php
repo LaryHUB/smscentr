@@ -2,6 +2,7 @@
 <html>
 <meta name="Author" content="Gaby_chen">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style type="text/css">

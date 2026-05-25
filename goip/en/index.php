@@ -4,20 +4,43 @@ if(!isset($_SESSION['goip_username'])) {
 	echo "<meta http-equiv=refresh content=0;url=\"../index.php?lan=3\">";
 	exit;
 }
-
 ?>
-
-<html>
-<meta name="Author" content="Gaby_chen">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>GOIP SMS SERVER</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="Author" content="Gaby_chen">
+<title>GOIP SMS Server</title>
+<style>
+    html, body { margin:0; padding:0; height:100%; overflow:hidden; font:13px Arial, Helvetica, sans-serif; background:#eef3fb; }
+    .app { display:flex; flex-direction:row; height:100vh; width:100%; }
+    .app .side { width:190px; flex:0 0 190px; border-right:1px solid #b7c8e8; background:#799AE1; overflow:auto; }
+    .app .col  { flex:1 1 auto; display:flex; flex-direction:column; min-width:0; }
+    .app .col .top  { height:35px; flex:0 0 35px; border-bottom:1px solid #b7c8e8; }
+    .app .col .main { flex:1 1 auto; min-height:0; }
+    .app iframe { width:100%; height:100%; border:0; display:block; }
+    /* Mobile: sidebar collapses behind a toggle */
+    .menubtn { display:none; position:fixed; top:6px; left:6px; z-index:20; background:#2f5fa8; color:#fff; border:0; padding:6px 10px; border-radius:4px; font:bold 14px sans-serif; cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,.2); }
+    @media (max-width: 720px) {
+        .menubtn { display:block; }
+        .app .side { position:fixed; left:-200px; top:0; bottom:0; z-index:15; transition:left .22s ease; box-shadow:2px 0 12px rgba(0,0,0,.25); }
+        .app.side-open .side { left:0; }
+        .app .col .top { padding-left:46px; }
+    }
+</style>
+<script>
+function toggleSide(){ document.getElementById('app').classList.toggle('side-open'); }
+</script>
 </head>
-<frameset Id="frame" framespacing="0" border="false" cols="190,*" frameborder="1" scrolling="yes">
-	<frame name="left" scrolling="auto" marginwIdth="0" marginheight="0" src="left.php">
-	<frameset framespacing="0" border="false" rows="35,*" frameborder="0" scrolling="yes">
-		<frame name="top" scrolling="no" src="top.php">
-		<frame name="main" scrolling="auto" src="main.php">
-	</frameset>
-</frameset><noframes></noframes>
+<body>
+<button class="menubtn" type="button" onclick="toggleSide()" aria-label="Menu">&#9776;</button>
+<div id="app" class="app">
+    <div class="side"><iframe name="left" src="left.php"></iframe></div>
+    <div class="col">
+        <div class="top"><iframe name="top" src="top.php" scrolling="no"></iframe></div>
+        <div class="main"><iframe name="main" src="main.php"></iframe></div>
+    </div>
+</div>
+</body>
 </html>

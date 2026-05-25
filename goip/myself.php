@@ -6,7 +6,8 @@
 	if($_POST[btnSave] =='Save'){
 		function WriteErrMsg($ErrMsg1)
 		{
-			$strErr="<html><head><title>Error Information</title><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>" ;
+			$strErr="<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Error Information</title><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>" ;
 			$strErr=$strErr."<link href='style.css' rel='stylesheet' type='text/css'></head><body>" ;
 			$strErr=$strErr."<table cellpadding=2 cellspacing=1 border=0 wIdth=400 class='border' align=center>"; 
 			$strErr=$strErr."  <tr align='center'><td height='22' class='title'><strong>Wrong message</strong></td></tr>" ;
@@ -25,7 +26,8 @@
 		//**************************************************
 		function WriteSuccessMsg($SuccessMsg,$URL)
 		{
-			$strErr="<html><head><title>Success Information</title><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>" ;
+			$strErr="<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Success Information</title><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>" ;
 			$strErr=$strErr."<link href='style.css' rel='stylesheet' type='text/css'></head><body>" ;
 			$strErr=$strErr."<table cellpadding=2 cellspacing=1 border=0 wIdth=400 class='border' align=center>"; 
 			$strErr=$strErr."  <tr align='center'><td height='22' class='title'><strong>Congratulation</strong></td></tr>" ;
@@ -64,6 +66,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" href="sms/style.css" type="text/css" />
 <link rel="stylesheet" href="style.css" type="text/css" />

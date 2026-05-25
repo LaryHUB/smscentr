@@ -22,7 +22,8 @@ if(!isset($_SESSION['goip_username'])){
 if($debug){
 ?>
 <html>                                                                                                            
-<head>                                                                                                            
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">                                                                                                            
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">                                               
 <link href="../style.css" rel="stylesheet" type="text/css">                                                          
 <title>USSD</title>                                                                                               

@@ -10,6 +10,7 @@ ini_set("upload_max_filesize", "100M");
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Data Import</title>
 <meta name="Author" content="Gaby_chen">
@@ -254,7 +255,8 @@ return true;
 }
 function show_msg($msgs)
 {
-	$strErr="<html><head><title>Error Information</title><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>" ;
+	$strErr="<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Error Information</title><meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>" ;
 	$strErr=$strErr."<link href='style.css' rel='stylesheet' type='text/css'></head><body>" ;
 	$strErr=$strErr."<br><br><table cellpadding=2 cellspacing=1 border=0 wIdth=400 class='border' align=center>"; 
 	$strErr=$strErr."  <tr align='center'><td height='22' class='title'><strong>Information </strong></td></tr>" ;
