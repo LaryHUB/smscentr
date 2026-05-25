@@ -547,23 +547,12 @@ $select.="<input type=\"submit\" value=\"Search\">\n";
 	$query=$db->query("SELECT count(*) AS count FROM goip left join prov on goip.provider=prov.id left join goip_group on goip.group_id=goip_group.id $where");
 	$row=$db->fetch_array($query);
 	$count=$row['count'];
-	$perpage=30;
-	$numofpage=ceil($count/$perpage);
-	$totlepage=$numofpage;
-	if(isset($_GET['page'])) {
-		$page=$_GET['page'];
-	} else {
-		$page=1;
-	}
-	if($numofpage && $page>$numofpage) {
-		$page=$numofpage;
-	}
-	if($page > 1) {
-		$start_limit=($page - 1)*$perpage;
-	} else{
-		$start_limit=0;
-		$page=1;
-	}
+	// Pagination disabled — single-page rendering for the modernized UI.
+	$perpage = max($count, 1);
+	$numofpage = 1;
+	$totlepage = 1;
+	$page = 1;
+	$start_limit = 0;
 	$query=$db->query("SELECT report_mail FROM system");
 	$row=$db->fetch_array($query);
 	$report_mail=$row['report_mail'];

@@ -506,22 +506,12 @@ $select.="<input type=\"submit\" value=\"搜索\">\n";
         $query=$db->query("SELECT count(*) AS count FROM goip left join prov on goip.provider=prov.id left join goip_group on goip.group_id=goip_group.id $where");
         $row=$db->fetch_array($query);
         $count=$row['count'];
-        $numofpage=ceil($count/$perpage);
-        $totlepage=$numofpage;
-        if(isset($_GET['page'])) {
-                $page=$_GET['page'];
-        } else {
-                $page=1;
-        }
-        if($numofpage && $page>$numofpage) {
-                $page=$numofpage;
-        }
-        if($page > 1) {
-                $start_limit=($page - 1)*$perpage;
-        } else{
-                $start_limit=0;
-                $page=1;
-        }
+        // Pagination disabled — single-page rendering for the modernized UI.
+        $perpage = max($count, 1);
+        $numofpage = 1;
+        $totlepage = 1;
+        $page = 1;
+        $start_limit = 0;
         //$fenye=showpage("?",$page,$count,$perpage,true,true,"rows");
         $fenye=showpage2("?action=$action&column=$column&type=$type&s_key=$s_key&order_key=$_REQUEST[order_key]&order=$_REQUEST[order]&",$page,$count,$perpage,true,true,"编","myform","boxs");
         $query=$db->query("SELECT goip.*,prov.prov,prov.id as provid,group_name FROM goip left join prov on goip.provider=prov.id left join goip_group on goip.group_id=goip_group.id $where $orderby LIMIT $start_limit,$perpage");
