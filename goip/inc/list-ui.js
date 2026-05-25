@@ -142,6 +142,59 @@
         watchStatusBars();
     }
 
+    // --- Promote selected navigation links (Add GoIP, Export) into floating
+    //     toolbar next to the Live indicator; hide the rest of the Navigation row ---
+    var KEEP_LINKS = ['Add GoIP', 'Export'];
+
+    function promoteNavLinks() {
+        var navRow = null, navCells = document.querySelectorAll('td');
+        for (var i = 0; i < navCells.length; i++) {
+            var t = (navCells[i].textContent || '').trim();
+            if (t === 'Navigation:' || /^Navigation\s*:?$/.test(t)) {
+                navRow = rowOf(navCells[i]);
+                break;
+            }
+        }
+        if (!navRow) return;
+
+        // Collect the wanted links from inside this row
+        var links = navRow.querySelectorAll('a');
+        var picked = [];
+        for (var j = 0; j < links.length; j++) {
+            var label = (links[j].textContent || '').trim();
+            for (var k = 0; k < KEEP_LINKS.length; k++) {
+                if (label === KEEP_LINKS[k]) {
+                    picked.push({ label: label, href: links[j].getAttribute('href'), target: links[j].getAttribute('target') || 'main' });
+                }
+            }
+        }
+        // Hide the whole navigation row
+        navRow.style.display = 'none';
+        if (!picked.length) return;
+
+        // Inject toolbar (CSS first)
+        if (!document.getElementById('goip-toolbar-style')) {
+            var st = document.createElement('style');
+            st.id = 'goip-toolbar-style';
+            st.appendChild(document.createTextNode(
+                '#goip-toolbar{position:fixed;top:6px;right:80px;z-index:9000;display:flex;gap:6px;font:12px -apple-system,Segoe UI,sans-serif}' +
+                '#goip-toolbar a{display:inline-block;padding:4px 12px;background:#215DC6;color:#fff;border:1px solid #1a4ba0;border-radius:14px;text-decoration:none;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08);transition:background .15s}' +
+                '#goip-toolbar a:hover{background:#1a4ba0;color:#fff;text-decoration:none}'
+            ));
+            document.head.appendChild(st);
+        }
+        var tb = document.createElement('div');
+        tb.id = 'goip-toolbar';
+        for (var p = 0; p < picked.length; p++) {
+            var a = document.createElement('a');
+            a.href = picked[p].href;
+            a.target = picked[p].target;
+            a.textContent = picked[p].label;
+            tb.appendChild(a);
+        }
+        document.body.appendChild(tb);
+    }
+
     // --- 4. Hide the vendor "Search Column / Search Type / Key" row entirely ---
     function hideSearchRow() {
         var cells = document.querySelectorAll('td');
@@ -167,6 +220,7 @@
 
     ready(function(){
         dedupStatusBars();
+        promoteNavLinks();
         hideSearchRow();
         addEmptyState();
         stylePagination();
