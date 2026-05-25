@@ -264,7 +264,16 @@
                 '#goip-fab-menu .gm-item:hover { background:#eef5ff; color:#1a4ba0; }' +
                 '#goip-fab-menu .gm-sep { height:1px; background:#eef3fb; margin:3px 0; }' +
                 '#goip-fab-menu .gm-danger:hover { background:#fef2f2; color:#c53030; }' +
-                '@media (max-width:720px){ #goip-fab{right:14px;bottom:14px;} #goip-fab-menu{right:14px;bottom:66px;} .batch-row.show{right:14px;bottom:66px;} }'
+                '#goip-fab-menu .gm-primary { background:#0a7d2a; color:#fff; font-weight:600; margin-bottom:2px; }' +
+                '#goip-fab-menu .gm-primary:hover { background:#075f1f; color:#fff; }' +
+                '#goip-modal { position:fixed; inset:0; background:rgba(15,30,55,0.55); z-index:9500; display:none; align-items:center; justify-content:center; padding:16px; }' +
+                '#goip-modal.open { display:flex; }' +
+                '#goip-modal .modal-box { background:#fff; border-radius:10px; box-shadow:0 24px 60px rgba(0,0,0,.35); width:min(560px, 92vw); max-height:88vh; display:flex; flex-direction:column; overflow:hidden; }' +
+                '#goip-modal .modal-head { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:#215DC6; color:#fff; font:600 14px -apple-system,Segoe UI,sans-serif; }' +
+                '#goip-modal .modal-close { background:transparent; border:0; color:#fff; font-size:22px; line-height:1; cursor:pointer; padding:0 4px; border-radius:4px; }' +
+                '#goip-modal .modal-close:hover { background:rgba(255,255,255,.18); }' +
+                '#goip-modal iframe { flex:1 1 auto; width:100%; border:0; background:#fff; min-height:380px; }' +
+                '@media (max-width:720px){ #goip-fab{right:14px;bottom:14px;} #goip-fab-menu{right:14px;bottom:66px;} .batch-row.show{right:14px;bottom:66px;} #goip-modal .modal-box{width:96vw;max-height:94vh;} }'
             ));
             document.head.appendChild(st);
         }
@@ -278,6 +287,20 @@
 
         var menu = document.createElement('div');
         menu.id = 'goip-fab-menu';
+
+        // Pinned action at the top — opens Add GoIP form in an overlay (no nav away)
+        var addBtn = document.createElement('button');
+        addBtn.type = 'button';
+        addBtn.className = 'gm-item gm-primary';
+        addBtn.textContent = '+ Add device';
+        addBtn.addEventListener('click', function(){
+            closeAll();
+            openAddDeviceModal();
+        });
+        menu.appendChild(addBtn);
+        var sep = document.createElement('div');
+        sep.className = 'gm-sep';
+        menu.appendChild(sep);
 
         // Populate menu from the original <select id="cmd">'s options
         var opts = sel.options;
@@ -332,6 +355,45 @@
 
         document.body.appendChild(menu);
         document.body.appendChild(fab);
+    }
+
+    // Modal that wraps the vendor "Add GoIP" form so users never leave the list.
+    function openAddDeviceModal() {
+        var modal = document.getElementById('goip-modal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'goip-modal';
+            modal.innerHTML =
+                '<div class="modal-box">' +
+                  '<div class="modal-head"><span>Add GoIP device</span>' +
+                    '<button type="button" class="modal-close" aria-label="Close">&times;</button>' +
+                  '</div>' +
+                  '<iframe name="goip-modal-frame" src="about:blank"></iframe>' +
+                '</div>';
+            document.body.appendChild(modal);
+            modal.querySelector('.modal-close').addEventListener('click', closeAddDeviceModal);
+            modal.addEventListener('click', function(e){ if (e.target === modal) closeAddDeviceModal(); });
+            document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAddDeviceModal(); });
+        }
+        var frame = modal.querySelector('iframe');
+        frame.src = 'goip.php?action=add';
+        // When the form submits and the page redirects back to the list, close + reload parent
+        frame.onload = function(){
+            try {
+                var p = frame.contentWindow.location.pathname;
+                var s = frame.contentWindow.location.search || '';
+                // Form redirects to goip.php (no action=add) on success
+                if (/\/goip\.php$/.test(p) && !/action=add/.test(s)) {
+                    closeAddDeviceModal();
+                    location.reload();
+                }
+            } catch(e) { /* cross-origin (shouldn't happen) */ }
+        };
+        modal.classList.add('open');
+    }
+    function closeAddDeviceModal() {
+        var modal = document.getElementById('goip-modal');
+        if (modal) modal.classList.remove('open');
     }
 
     // --- 5. Make 'Choose current page' / 'Choose all' look like a compact toolbar ---
